@@ -4,7 +4,7 @@ project(Chip8 VERSION 1.0.0)
 include(CTest)
 enable_testing()
 
-
+set(CMAKE_BUILD_TYPE Debug)
 #include_directories(include)
 
 add_subdirectory(lib)

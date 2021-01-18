@@ -16,9 +16,10 @@ private:
 	unsigned char sound_timer;
 	unsigned short stack[16];
 	unsigned short stackPointer;
-	unsigned char keyPad[16];
 	unsigned char chip8_fontset[80];
+	unsigned char keyPad[16];
 	bool drawFlag;
+
 
 	void decodeOPcode();
 	void updateTimers();
@@ -32,6 +33,15 @@ public:
 
 	chip8();
 	void initialize();
-	void emulateCycle();
+	void processCommand();
 	bool load(const char *filePath);
+
+	void copyGraphicBuffer(uint32_t*);
+
+	int getKeyPad(int);
+	void setKeyPad(int, int);
+
+	bool getDrawFlag();
+	void setDrawFlag(bool);
+
 };

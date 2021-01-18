@@ -52,6 +52,9 @@ void chip8::initialize(){
 }
 
 bool  chip8::load(const char *filePath) {
+
+	cout<<"loading file"<<endl;
+
 	FILE* file = fopen(filePath, "r");
 
 	if (file == NULL) {
@@ -88,8 +91,10 @@ bool  chip8::load(const char *filePath) {
 	return true;
 }
 
-void chip8::emulateCycle(){
+void chip8::processCommand(){
+
 	opcode = memory[programCounter] << 8 | memory[programCounter + 1];
+	cout << "process command " << opcode <<endl;
 
 	decodeOPcode();
 
@@ -437,5 +442,30 @@ void chip8::drawSprite() {
 void chip8::clearDisplay() {
 	for (int i = 0; i < sizeof(graphicInterface) ; i++) {
 		graphicInterface[i] = 0;
+	}
+}
+
+
+int chip8::getKeyPad(int index) {
+	return keyPad[index];
+}
+
+void chip8::setKeyPad(int index, int value) {
+	keyPad[index] = value;
+}
+
+bool chip8::getDrawFlag() {
+	return drawFlag;
+}
+
+void chip8::setDrawFlag(bool flag) {
+	drawFlag = flag;
+}
+
+void chip8::copyGraphicBuffer(uint32_t* pixels) {
+	uint8_t pixel;
+	for (int i = 0; i < 64 * 32; i++) {
+		pixel = graphicInterface[i];
+		pixels[i] = (0x00FFFFFF * pixel) | 0xFF000000;
 	}
 }
