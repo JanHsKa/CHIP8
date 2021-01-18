@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/Controller.h
+iostream
+-
+chip8.h
+../include/chip8.h
+
+../include/chip8.h
+iostream
+-
+
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/src/chip8.cpp
+iostream
+-
+chip8.h
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/src/chip8.h
+fstream
+-
+
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/src/controller.cpp
+Controller.h
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/src/Controller.h
+
