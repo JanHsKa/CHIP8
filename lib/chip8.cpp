@@ -23,7 +23,7 @@ chip8::chip8() :chip8_fontset{ 0xF0, 0x90, 0x90, 0x90, 0xF0,
 	0xF0, 0x80, 0xF0, 0x80, 0xF0, 
 	0xF0, 0x80, 0xF0, 0x80, 0x80 }
 {
-
+	initialize();
 }
 
 void chip8::initialize(){
@@ -37,6 +37,7 @@ void chip8::initialize(){
 	for (int i = 0; i < 16; i++) {
 		stack[i] = 0;
 		variablesRegister[i] = 0;
+		keyPad[i] = 0;
 	}
 
 	for (int i = 0; i < sizeof(memory); i++) {
@@ -94,7 +95,16 @@ bool  chip8::load(const char *filePath) {
 void chip8::processCommand(){
 
 	opcode = memory[programCounter] << 8 | memory[programCounter + 1];
-	cout << "process command " << opcode <<endl;
+	/* cout<<"normal    ";
+	cout  << std::hex<< opcode<<endl;
+	cout<<"converted    ";
+	cout  << std::hex<< (opcode & 0xF000) <<endl;
+	cout<<"converted  reverse   ";
+	cout  << std::hex<< (opcode & 0x00FF) <<endl;
+	cout << "program counter  " << programCounter <<endl;
+	cout<<endl */;
+
+
 
 	decodeOPcode();
 
@@ -133,11 +143,11 @@ void chip8::decodeOPcode(){
 
 	case 0x2000:
 		stack[stackPointer] = programCounter;
+		stackPointer++;
 		programCounter = opcode & 0x0FFF;
 		break;
 
 	case 0x3000:
-		
 		vx = (opcode & 0x0F00) >> 8;
 		nn = opcode & 0x00FF;
 		if (variablesRegister[vx] == nn) {
@@ -243,7 +253,7 @@ void chip8::decodeOPcode(){
 
 
 	default:
-		printf("Unknown opcode: 0x%X\n", opcode);
+		printf("Unknown opcode: 0x%X\n\n", opcode);
 	}
 }
 
@@ -258,6 +268,7 @@ void chip8::executeCaseF() {
 		break;
 		
 	case 0x000A:
+	cout<<"check for key"<<endl<<endl;
 		keyPressed = false;
 		for (int i = 0; i < 16; i++) {
 			if (keyPad[i] != 0) {
@@ -285,6 +296,7 @@ void chip8::executeCaseF() {
 		
 	case 0x001E:
 		indexRegister += variablesRegister[vx];
+		programCounter += 2;
 		break;
 
 	case 0x0029:
@@ -400,6 +412,7 @@ void chip8::executeCase0() {
 	switch (opcode & 0x000F) {
 	case 0x0000:
 		clearDisplay();
+		drawFlag = true;
 		programCounter += 2;
 		break;
 

@@ -27,7 +27,7 @@ int Controller::emulateCycle()
 	SDL_Window *window = SDL_CreateWindow("SDL2 Window",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
-                                          64 * 4, 32 * 6,
+                                          1024, 512,
                                           0);
 
     if(!window)
@@ -53,7 +53,7 @@ int Controller::emulateCycle()
 	loadFile();
 
 	cout << "finished loading" <<endl;
-	
+
 	bool keep_window_open = true;
 	while(keep_window_open)
 	{
@@ -90,7 +90,7 @@ int Controller::emulateCycle()
 				SDL_RenderPresent(renderer);
 		}
 
-		SDL_Delay(1000/60);
+		SDL_Delay(50);
 	}
 
 
@@ -105,6 +105,7 @@ int Controller::emulateCycle()
 
 
 void Controller::addPressedKey(SDL_Event event, int value) {
+	cout<<"key pressed:  "<<event.key.keysym.sym<<endl;
 	for (int i = 0; i < 16; i++) {
 		if (event.key.keysym.sym == keymap[i]) {
 			emulator->setKeyPad(i, value);

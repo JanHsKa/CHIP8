@@ -14,6 +14,14 @@ chip8.h
 SDL2/SDL.h
 /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/SDL2/SDL.h
 
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/chip8.cpp
+iostream
+-
+chip8.h
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/chip8.h
+fstream
+-
+
 /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/chip8.h
 iostream
 -
