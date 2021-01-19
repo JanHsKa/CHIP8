@@ -95,14 +95,14 @@ bool  chip8::load(const char *filePath) {
 void chip8::processCommand(){
 
 	opcode = memory[programCounter] << 8 | memory[programCounter + 1];
-	/* cout<<"normal    ";
+	cout<<"normal    ";
 	cout  << std::hex<< opcode<<endl;
 	cout<<"converted    ";
 	cout  << std::hex<< (opcode & 0xF000) <<endl;
 	cout<<"converted  reverse   ";
 	cout  << std::hex<< (opcode & 0x00FF) <<endl;
 	cout << "program counter  " << programCounter <<endl;
-	cout<<endl */;
+	cout<<endl;
 
 
 
@@ -142,6 +142,7 @@ void chip8::decodeOPcode(){
 		break;
 
 	case 0x2000:
+		programCounter += 2;
 		stack[stackPointer] = programCounter;
 		stackPointer++;
 		programCounter = opcode & 0x0FFF;
@@ -229,6 +230,8 @@ void chip8::decodeOPcode(){
 	case 0xE000:
 		switch (opcode & 0x00FF){
 		case 0x009E:
+		cout<<"key pressed"<<endl;
+
 			vx = (opcode & 0x0F00) >> 8;
 			if (keyPad[variablesRegister[vx]] != 0) {
 				programCounter += 2;
@@ -238,6 +241,7 @@ void chip8::decodeOPcode(){
 			break;
 
 		case 0x00A1:
+		cout<<"no key pressed"<<endl;
 			vx = (opcode & 0x0F00) >> 8;
 			if (keyPad[variablesRegister[vx]] == 0) {
 				programCounter += 2;

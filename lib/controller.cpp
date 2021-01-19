@@ -1,13 +1,30 @@
 #include "Controller.h"
 #include "SDL2/SDL.h"
 
-Controller::Controller(const char* file, uint8_t debug) : filePath(file), 
-	keymap{SDLK_1, SDLK_2, SDLK_3, SDLK_4, 
-		SDLK_q, SDLK_w, SDLK_e, SDLK_r, 
-		SDLK_a, SDLK_s, SDLK_d, SDLK_f, 
-		SDLK_y, SDLK_x, SDLK_c, SDLK_v}  {
+using namespace std;
+
+Controller::Controller(const char* file, uint8_t debug) : 
+filePath(file) {
 	debugType = debug;
 	emulator = new chip8();
+
+	keymap.insert({SDLK_1, 0x1});
+	keymap.insert({SDLK_2, 0x2});
+	keymap.insert({SDLK_3, 0x3});
+	keymap.insert({SDLK_4, 0xC});
+	keymap.insert({SDLK_q, 0x4});
+	keymap.insert({SDLK_w, 0x5});
+	keymap.insert({SDLK_e, 0x6});
+	keymap.insert({SDLK_r, 0xD});
+	keymap.insert({SDLK_a, 0x7});
+	keymap.insert({SDLK_s, 0x8});
+	keymap.insert({SDLK_d, 0x9});
+	keymap.insert({SDLK_f, 0xE});
+	keymap.insert({SDLK_y, 0xA});
+	keymap.insert({SDLK_x, 0x0});
+	keymap.insert({SDLK_c, 0xB});
+	keymap.insert({SDLK_v, 0xF});
+
 }
 
 bool Controller::loadFile()
@@ -90,7 +107,7 @@ int Controller::emulateCycle()
 				SDL_RenderPresent(renderer);
 		}
 
-		SDL_Delay(50);
+		SDL_Delay(10);
 	}
 
 
@@ -105,11 +122,9 @@ int Controller::emulateCycle()
 
 
 void Controller::addPressedKey(SDL_Event event, int value) {
-	cout<<"key pressed:  "<<event.key.keysym.sym<<endl;
-	for (int i = 0; i < 16; i++) {
-		if (event.key.keysym.sym == keymap[i]) {
-			emulator->setKeyPad(i, value);
-		}
+	//cout<<"key pressed:  "<<event.key.keysym.sym<<endl;
+	if (keymap.find(event.key.keysym.sym) != keymap.end()) {
+		emulator->setKeyPad(keymap[event.key.keysym.sym], value);
 	}
 }
 

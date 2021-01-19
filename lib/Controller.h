@@ -1,6 +1,7 @@
 #include <iostream>
 #include "chip8.h"
 #include "SDL2/SDL.h"
+#include <map>
 
 using namespace std;
 
@@ -8,7 +9,7 @@ using namespace std;
 class Controller {
 private:
 	chip8* emulator;
-	uint8_t keymap[16];
+	map<SDL_Keycode, uint8_t> keymap;
 	const char* filePath;
 	uint8_t debugType;
 

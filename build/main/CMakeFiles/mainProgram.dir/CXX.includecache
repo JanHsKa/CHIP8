@@ -13,6 +13,8 @@ chip8.h
 ../lib/chip8.h
 SDL2/SDL.h
 ../lib/SDL2/SDL.h
+map
+-
 
 ../lib/chip8.h
 iostream
