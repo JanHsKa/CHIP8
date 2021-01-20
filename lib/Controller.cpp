@@ -1,12 +1,13 @@
 #include "Controller.h"
 #include "SDL2/SDL.h"
+#include "Macros.h"
 
 using namespace std;
 
 Controller::Controller(const char* file, uint8_t debug) : 
 filePath(file) {
 	debugType = debug;
-	emulator = new chip8();
+	emulator = new Chip8();
 
 	keymap.insert({SDLK_1, 0x1});
 	keymap.insert({SDLK_2, 0x2});
@@ -32,7 +33,7 @@ bool Controller::loadFile()
 	return emulator->load(filePath);
 }
 
-int Controller::emulateCycle()
+int Controller::emulateProgram()
 {
 	cout<<"starting emulate"<<endl;
 
@@ -67,9 +68,11 @@ int Controller::emulateCycle()
             SDL_TEXTUREACCESS_STREAMING,
             64, 32); 
 
+	cout << "Loading file" <<endl;
+
 	loadFile();
 
-	cout << "finished loading" <<endl;
+	cout << "Finished loading" <<endl;
 
 	bool keep_window_open = true;
 	while(keep_window_open)
@@ -122,9 +125,16 @@ int Controller::emulateCycle()
 
 
 void Controller::addPressedKey(SDL_Event event, int value) {
-	//cout<<"key pressed:  "<<event.key.keysym.sym<<endl;
 	if (keymap.find(event.key.keysym.sym) != keymap.end()) {
-		emulator->setKeyPad(keymap[event.key.keysym.sym], value);
+		emulator->setKeyPadAt(keymap[event.key.keysym.sym], value);
 	}
 }
 
+int Controller::emulateDebug() {
+	cout << "Starting Debug Mode" <<endl;
+	cout << "F6 : Step through program" <<endl;
+	cout << "F7 : Print out current memory" <<endl;
+	cout << "F8 : Run program normal" <<endl;
+	
+	return 0;
+}

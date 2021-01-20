@@ -1,12 +1,14 @@
 ﻿
 #include <iostream>
-#include "chip8.h"
+#include "Chip8.h"
 #include <fstream>
+#include "Macros.h"
+
 
 using namespace std;
 
 
-chip8::chip8() :chip8_fontset{ 0xF0, 0x90, 0x90, 0x90, 0xF0, 
+Chip8::Chip8() :chip8_fontset{ 0xF0, 0x90, 0x90, 0x90, 0xF0, 
 	0x20, 0x60, 0x20, 0x20, 0x70, 
 	0xF0, 0x10, 0xF0, 0x80, 0xF0, 
 	0xF0, 0x10, 0xF0, 0x10, 0xF0, 
@@ -26,15 +28,15 @@ chip8::chip8() :chip8_fontset{ 0xF0, 0x90, 0x90, 0x90, 0xF0,
 	initialize();
 }
 
-void chip8::initialize(){
-	programCounter = 0x200;  // Program counter starts at 0x200
-	opcode = 0;      // Reset current opcode	
-	indexRegister = 0;      // Reset index register
-	stackPointer = 0;      // Reset stack pointer
+void Chip8::initialize(){
+	programCounter = 0x200;  
+	opcode = 0;      	
+	indexRegister = 0;      
+	stackPointer = 0;      
 
 	clearDisplay();
 
-	for (int i = 0; i < 16; i++) {
+	for (int i = 0; i < STACKSIZE; i++) {
 		stack[i] = 0;
 		variablesRegister[i] = 0;
 		keyPad[i] = 0;
@@ -52,10 +54,7 @@ void chip8::initialize(){
 	sound_timer = 0;
 }
 
-bool  chip8::load(const char *filePath) {
-
-	cout<<"loading file"<<endl;
-
+bool  Chip8::load(const char *filePath) {
 	FILE* file = fopen(filePath, "r");
 
 	if (file == NULL) {
@@ -76,7 +75,7 @@ bool  chip8::load(const char *filePath) {
 		return false;
 	}
 
-	if (fileSize > (4096 - 512)) {
+	if (fileSize > (MEMORYSIZE - 512)) {
 		cerr << "ROM is to large to read in to memory" << std::endl;
 		return false;
 	} 
@@ -92,7 +91,7 @@ bool  chip8::load(const char *filePath) {
 	return true;
 }
 
-void chip8::processCommand(){
+void Chip8::processCommand(){
 
 	opcode = memory[programCounter] << 8 | memory[programCounter + 1];
 	cout<<"normal    ";
@@ -112,7 +111,7 @@ void chip8::processCommand(){
 	
 }
 
-void chip8::updateTimers(){
+void Chip8::updateTimers(){
 	if (delay_timer > 0)
 		delay_timer--;
 
@@ -124,7 +123,7 @@ void chip8::updateTimers(){
 }
 
 
-void chip8::decodeOPcode(){
+void Chip8::decodeOPcode(){
 	unsigned short vx;
 	unsigned short nn;
 	unsigned short vy;
@@ -230,8 +229,6 @@ void chip8::decodeOPcode(){
 	case 0xE000:
 		switch (opcode & 0x00FF){
 		case 0x009E:
-		cout<<"key pressed"<<endl;
-
 			vx = (opcode & 0x0F00) >> 8;
 			if (keyPad[variablesRegister[vx]] != 0) {
 				programCounter += 2;
@@ -241,7 +238,6 @@ void chip8::decodeOPcode(){
 			break;
 
 		case 0x00A1:
-		cout<<"no key pressed"<<endl;
 			vx = (opcode & 0x0F00) >> 8;
 			if (keyPad[variablesRegister[vx]] == 0) {
 				programCounter += 2;
@@ -261,7 +257,7 @@ void chip8::decodeOPcode(){
 	}
 }
 
-void chip8::executeCaseF() {
+void Chip8::executeCaseF() {
 	unsigned short vx = (opcode & 0x0F00) >> 8;
 	bool keyPressed;
 
@@ -272,9 +268,8 @@ void chip8::executeCaseF() {
 		break;
 		
 	case 0x000A:
-	cout<<"check for key"<<endl<<endl;
 		keyPressed = false;
-		for (int i = 0; i < 16; i++) {
+		for (int i = 0; i < KEYCOUNT; i++) {
 			if (keyPad[i] != 0) {
 				variablesRegister[(opcode & 0x0F00) >> 8] = i; 
 				keyPressed = true;
@@ -334,7 +329,7 @@ void chip8::executeCaseF() {
 	}
 }
 
-void chip8::executeCase8() {
+void Chip8::executeCase8() {
 	unsigned short vx = (opcode & 0x0F00) >> 8;
 	unsigned short vy = (opcode & 0x00F0) >> 4;
 
@@ -362,10 +357,10 @@ void chip8::executeCase8() {
 	case 0x0004:
 		variablesRegister[vx] = variablesRegister[vx] + variablesRegister[vy];
 		if ((variablesRegister[vx] + variablesRegister[vy]) > 0xFF) {
-			variablesRegister[15] = 1;
+			variablesRegister[CARRYFLAGINDEX] = 1;
 		}
 		else {
-			variablesRegister[15] = 0;
+			variablesRegister[CARRYFLAGINDEX] = 0;
 		}
 
 		programCounter += 2;
@@ -374,17 +369,17 @@ void chip8::executeCase8() {
 	case 0x0005:
 		variablesRegister[vx] = variablesRegister[vx] - variablesRegister[vy];
 		if (variablesRegister[vx] < variablesRegister[vy]) {
-			variablesRegister[15] = 0;
+			variablesRegister[CARRYFLAGINDEX] = 0;
 		}
 		else {
-			variablesRegister[15] = 1;
+			variablesRegister[CARRYFLAGINDEX] = 1;
 		}
 
 		programCounter += 2;
 		break;
 
 	case 0x0006:
-		variablesRegister[15] = variablesRegister[vx] & 0x1;
+		variablesRegister[CARRYFLAGINDEX] = variablesRegister[vx] & 0x1;
 		variablesRegister[vx] = variablesRegister[vx] >> 1;
 		programCounter += 2;
 		break;
@@ -392,17 +387,17 @@ void chip8::executeCase8() {
 	case 0x0007:
 		variablesRegister[vx] = variablesRegister[vy] - variablesRegister[vx];
 		if (variablesRegister[vy] < variablesRegister[vx]) {
-			variablesRegister[15] = 0;
+			variablesRegister[CARRYFLAGINDEX] = 0;
 		}
 		else {
-			variablesRegister[15] = 1;
+			variablesRegister[CARRYFLAGINDEX] = 1;
 		}
 
 		programCounter += 2;
 		break;
 
 	case 0x000E:
-		variablesRegister[15] = variablesRegister[vx] & 0b10000000;
+		variablesRegister[CARRYFLAGINDEX] = variablesRegister[vx] & 0b10000000;
 		variablesRegister[vx] = variablesRegister[vx] << 1;
 		programCounter += 2;
 		break;
@@ -412,7 +407,7 @@ void chip8::executeCase8() {
 	}
 }
 
-void chip8::executeCase0() {
+void Chip8::executeCase0() {
 	switch (opcode & 0x000F) {
 	case 0x0000:
 		clearDisplay();
@@ -431,7 +426,7 @@ void chip8::executeCase0() {
 }
 
 
-void chip8::drawSprite() {
+void Chip8::drawSprite() {
 	unsigned short x = variablesRegister[(opcode & 0x0F00) >> 8];
 	unsigned short y = variablesRegister[(opcode & 0x00F0) >> 4];
 	unsigned short height = opcode & 0x000F;
@@ -456,33 +451,54 @@ void chip8::drawSprite() {
 	programCounter += 2;
 }
 
-void chip8::clearDisplay() {
+void Chip8::clearDisplay() {
 	for (int i = 0; i < sizeof(graphicInterface) ; i++) {
 		graphicInterface[i] = 0;
 	}
 }
 
 
-int chip8::getKeyPad(int index) {
+int Chip8::getKeyPadAt(int index) {
 	return keyPad[index];
 }
 
-void chip8::setKeyPad(int index, int value) {
+void Chip8::setKeyPadAt(int index, int value) {
 	keyPad[index] = value;
 }
 
-bool chip8::getDrawFlag() {
+bool Chip8::getDrawFlag() {
 	return drawFlag;
 }
 
-void chip8::setDrawFlag(bool flag) {
+void Chip8::setDrawFlag(bool flag) {
 	drawFlag = flag;
 }
 
-void chip8::copyGraphicBuffer(uint32_t* pixels) {
+void Chip8::copyGraphicBuffer(uint32_t* pixels) {
 	uint8_t pixel;
 	for (int i = 0; i < 64 * 32; i++) {
 		pixel = graphicInterface[i];
 		pixels[i] = (0x00FFFFFF * pixel) | 0xFF000000;
+	}
+}
+
+void Chip8::debugOutput() {
+	cout<< "Current Memory: " << endl;
+	cout << "Opcode: "<< hex << opcode << endl;
+	cout << "Program Counter: " << dec << programCounter << endl;
+	cout << "Index Register: " << dec << indexRegister << endl;
+	cout << "Stack Pointer: " << dec << stackPointer << endl;
+	cout << "Delay Timer: " << dec << delay_timer << endl;
+	cout << "Sound Timer: " << dec << sound_timer << endl;
+	cout << "Variables: " << dec << programCounter << endl;
+
+	for (int i = 0; i < VARIABLECOUNT; i++) {
+		cout << "[" << i << "] : " <<  variablesRegister[i] << endl;
+	}
+
+	cout << "Stack: " << endl;
+	
+	for (int i = STACKSIZE - 1; i >= 0; i--) {
+		cout << "[" << i << "] : " << hex <<  stack[i] << dec << endl;
 	}
 }

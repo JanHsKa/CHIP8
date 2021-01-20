@@ -76,42 +76,42 @@ include lib/CMakeFiles/sources.dir/progress.make
 # Include the compile flags for this target's objects.
 include lib/CMakeFiles/sources.dir/flags.make
 
-lib/CMakeFiles/sources.dir/chip8.cpp.o: lib/CMakeFiles/sources.dir/flags.make
-lib/CMakeFiles/sources.dir/chip8.cpp.o: ../lib/chip8.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object lib/CMakeFiles/sources.dir/chip8.cpp.o"
-	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sources.dir/chip8.cpp.o -c /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/chip8.cpp
+lib/CMakeFiles/sources.dir/Chip8.cpp.o: lib/CMakeFiles/sources.dir/flags.make
+lib/CMakeFiles/sources.dir/Chip8.cpp.o: ../lib/Chip8.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object lib/CMakeFiles/sources.dir/Chip8.cpp.o"
+	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sources.dir/Chip8.cpp.o -c /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.cpp
 
-lib/CMakeFiles/sources.dir/chip8.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sources.dir/chip8.cpp.i"
-	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/chip8.cpp > CMakeFiles/sources.dir/chip8.cpp.i
+lib/CMakeFiles/sources.dir/Chip8.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sources.dir/Chip8.cpp.i"
+	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.cpp > CMakeFiles/sources.dir/Chip8.cpp.i
 
-lib/CMakeFiles/sources.dir/chip8.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sources.dir/chip8.cpp.s"
-	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/chip8.cpp -o CMakeFiles/sources.dir/chip8.cpp.s
+lib/CMakeFiles/sources.dir/Chip8.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sources.dir/Chip8.cpp.s"
+	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.cpp -o CMakeFiles/sources.dir/Chip8.cpp.s
 
-lib/CMakeFiles/sources.dir/controller.cpp.o: lib/CMakeFiles/sources.dir/flags.make
-lib/CMakeFiles/sources.dir/controller.cpp.o: ../lib/controller.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object lib/CMakeFiles/sources.dir/controller.cpp.o"
-	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sources.dir/controller.cpp.o -c /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/controller.cpp
+lib/CMakeFiles/sources.dir/Controller.cpp.o: lib/CMakeFiles/sources.dir/flags.make
+lib/CMakeFiles/sources.dir/Controller.cpp.o: ../lib/Controller.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object lib/CMakeFiles/sources.dir/Controller.cpp.o"
+	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sources.dir/Controller.cpp.o -c /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Controller.cpp
 
-lib/CMakeFiles/sources.dir/controller.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sources.dir/controller.cpp.i"
-	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/controller.cpp > CMakeFiles/sources.dir/controller.cpp.i
+lib/CMakeFiles/sources.dir/Controller.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sources.dir/Controller.cpp.i"
+	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Controller.cpp > CMakeFiles/sources.dir/Controller.cpp.i
 
-lib/CMakeFiles/sources.dir/controller.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sources.dir/controller.cpp.s"
-	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/controller.cpp -o CMakeFiles/sources.dir/controller.cpp.s
+lib/CMakeFiles/sources.dir/Controller.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sources.dir/Controller.cpp.s"
+	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Controller.cpp -o CMakeFiles/sources.dir/Controller.cpp.s
 
 # Object files for target sources
 sources_OBJECTS = \
-"CMakeFiles/sources.dir/chip8.cpp.o" \
-"CMakeFiles/sources.dir/controller.cpp.o"
+"CMakeFiles/sources.dir/Chip8.cpp.o" \
+"CMakeFiles/sources.dir/Controller.cpp.o"
 
 # External object files for target sources
 sources_EXTERNAL_OBJECTS =
 
-lib/libsources.so: lib/CMakeFiles/sources.dir/chip8.cpp.o
-lib/libsources.so: lib/CMakeFiles/sources.dir/controller.cpp.o
+lib/libsources.so: lib/CMakeFiles/sources.dir/Chip8.cpp.o
+lib/libsources.so: lib/CMakeFiles/sources.dir/Controller.cpp.o
 lib/libsources.so: lib/CMakeFiles/sources.dir/build.make
 lib/libsources.so: lib/CMakeFiles/sources.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX shared library libsources.so"

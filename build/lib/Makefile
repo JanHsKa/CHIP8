@@ -223,59 +223,59 @@ sources/fast:
 	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/build
 .PHONY : sources/fast
 
-chip8.o: chip8.cpp.o
+Chip8.o: Chip8.cpp.o
 
-.PHONY : chip8.o
-
-# target to build an object file
-chip8.cpp.o:
-	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/chip8.cpp.o
-.PHONY : chip8.cpp.o
-
-chip8.i: chip8.cpp.i
-
-.PHONY : chip8.i
-
-# target to preprocess a source file
-chip8.cpp.i:
-	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/chip8.cpp.i
-.PHONY : chip8.cpp.i
-
-chip8.s: chip8.cpp.s
-
-.PHONY : chip8.s
-
-# target to generate assembly for a file
-chip8.cpp.s:
-	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/chip8.cpp.s
-.PHONY : chip8.cpp.s
-
-controller.o: controller.cpp.o
-
-.PHONY : controller.o
+.PHONY : Chip8.o
 
 # target to build an object file
-controller.cpp.o:
-	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/controller.cpp.o
-.PHONY : controller.cpp.o
+Chip8.cpp.o:
+	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/Chip8.cpp.o
+.PHONY : Chip8.cpp.o
 
-controller.i: controller.cpp.i
+Chip8.i: Chip8.cpp.i
 
-.PHONY : controller.i
+.PHONY : Chip8.i
 
 # target to preprocess a source file
-controller.cpp.i:
-	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/controller.cpp.i
-.PHONY : controller.cpp.i
+Chip8.cpp.i:
+	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/Chip8.cpp.i
+.PHONY : Chip8.cpp.i
 
-controller.s: controller.cpp.s
+Chip8.s: Chip8.cpp.s
 
-.PHONY : controller.s
+.PHONY : Chip8.s
 
 # target to generate assembly for a file
-controller.cpp.s:
-	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/controller.cpp.s
-.PHONY : controller.cpp.s
+Chip8.cpp.s:
+	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/Chip8.cpp.s
+.PHONY : Chip8.cpp.s
+
+Controller.o: Controller.cpp.o
+
+.PHONY : Controller.o
+
+# target to build an object file
+Controller.cpp.o:
+	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/Controller.cpp.o
+.PHONY : Controller.cpp.o
+
+Controller.i: Controller.cpp.i
+
+.PHONY : Controller.i
+
+# target to preprocess a source file
+Controller.cpp.i:
+	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/Controller.cpp.i
+.PHONY : Controller.cpp.i
+
+Controller.s: Controller.cpp.s
+
+.PHONY : Controller.s
+
+# target to generate assembly for a file
+Controller.cpp.s:
+	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/Controller.cpp.s
+.PHONY : Controller.cpp.s
 
 # Help Target
 help:
@@ -293,12 +293,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... sources"
-	@echo "... chip8.o"
-	@echo "... chip8.i"
-	@echo "... chip8.s"
-	@echo "... controller.o"
-	@echo "... controller.i"
-	@echo "... controller.s"
+	@echo "... Chip8.o"
+	@echo "... Chip8.i"
+	@echo "... Chip8.s"
+	@echo "... Controller.o"
+	@echo "... Controller.i"
+	@echo "... Controller.s"
 .PHONY : help
 
 

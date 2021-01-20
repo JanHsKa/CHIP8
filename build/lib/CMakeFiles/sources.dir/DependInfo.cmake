@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/chip8.cpp" "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib/CMakeFiles/sources.dir/chip8.cpp.o"
-  "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/controller.cpp" "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib/CMakeFiles/sources.dir/controller.cpp.o"
+  "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.cpp" "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib/CMakeFiles/sources.dir/Chip8.cpp.o"
+  "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Controller.cpp" "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib/CMakeFiles/sources.dir/Controller.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

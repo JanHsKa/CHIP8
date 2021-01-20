@@ -1,5 +1,5 @@
 
-set (libSrcs chip8.cpp controller.cpp)
+set (libSrcs Chip8.cpp Controller.cpp)
 
 add_library(sources SHARED ${libSrcs})
 

@@ -1,13 +1,13 @@
 [
 {
   "directory": "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib",
-  "command": "/usr/bin/g++ -Dsources_EXPORTS  -g -fPIC -o CMakeFiles/sources.dir/chip8.cpp.o -c /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/chip8.cpp",
-  "file": "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/chip8.cpp"
+  "command": "/usr/bin/g++ -Dsources_EXPORTS  -g -fPIC -o CMakeFiles/sources.dir/Chip8.cpp.o -c /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.cpp",
+  "file": "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.cpp"
 },
 {
   "directory": "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib",
-  "command": "/usr/bin/g++ -Dsources_EXPORTS  -g -fPIC -o CMakeFiles/sources.dir/controller.cpp.o -c /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/controller.cpp",
-  "file": "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/controller.cpp"
+  "command": "/usr/bin/g++ -Dsources_EXPORTS  -g -fPIC -o CMakeFiles/sources.dir/Controller.cpp.o -c /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Controller.cpp",
+  "file": "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Controller.cpp"
 },
 {
   "directory": "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/main",

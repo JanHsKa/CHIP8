@@ -6,19 +6,23 @@
 
 #IncludeRegexTransform: 
 
+../lib/Chip8.h
+iostream
+-
+Macros.h
+../lib/Macros.h
+
 ../lib/Controller.h
 iostream
 -
-chip8.h
-../lib/chip8.h
+Chip8.h
+../lib/Chip8.h
 SDL2/SDL.h
 ../lib/SDL2/SDL.h
 map
 -
 
-../lib/chip8.h
-iostream
--
+../lib/Macros.h
 
 /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/main/main.cpp
 iostream

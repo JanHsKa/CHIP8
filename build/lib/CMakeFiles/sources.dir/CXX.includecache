@@ -6,23 +6,39 @@
 
 #IncludeRegexTransform: 
 
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.cpp
+iostream
+-
+Chip8.h
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.h
+fstream
+-
+Macros.h
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Macros.h
+
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.h
+iostream
+-
+Macros.h
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Macros.h
+
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Controller.cpp
+Controller.h
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Controller.h
+SDL2/SDL.h
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/SDL2/SDL.h
+Macros.h
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Macros.h
+
 /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Controller.h
 iostream
 -
-chip8.h
-/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/chip8.h
+Chip8.h
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.h
 SDL2/SDL.h
 /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/SDL2/SDL.h
 map
 -
 
-/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/chip8.h
-iostream
--
-
-/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/controller.cpp
-Controller.h
-/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Controller.h
-SDL2/SDL.h
-/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/SDL2/SDL.h
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Macros.h
 

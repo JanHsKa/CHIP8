@@ -5,13 +5,13 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-	cout << "Hello CMake." <<endl;
-	
 	for (int i = 0; i < argc; ++i) 
         cout << argv[i] << "\n"; 
 	
-	Controller* controller = new Controller(argv[1],0);
+	//Controller* controller = new Controller(argv[1],0);
 
 	
-	return controller->emulateCycle();
+	//return controller->emulate();
+
+	return 0;
 }
