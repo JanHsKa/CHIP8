@@ -124,6 +124,7 @@ void Chip8::updateTimers(){
 
 
 void Chip8::decodeOPcode(){
+	cout<<"starting decode"<<endl;
 	unsigned short vx;
 	unsigned short nn;
 	unsigned short vy;
@@ -227,6 +228,7 @@ void Chip8::decodeOPcode(){
 		break;
 
 	case 0xE000:
+		cout<<"Entering case 0xE000"<<endl;
 		switch (opcode & 0x00FF){
 		case 0x009E:
 			vx = (opcode & 0x0F00) >> 8;
@@ -238,6 +240,8 @@ void Chip8::decodeOPcode(){
 			break;
 
 		case 0x00A1:
+			cout<<"Entering case 0xE0A1"<<endl;
+
 			vx = (opcode & 0x0F00) >> 8;
 			if (keyPad[variablesRegister[vx]] == 0) {
 				programCounter += 2;
@@ -248,12 +252,23 @@ void Chip8::decodeOPcode(){
 		}
 			
 	case 0xF000:
+		cout<<"case F cast"<<endl;
+		cout  << std::hex<< opcode<<endl;
+		cout  << std::hex<< (opcode & 0xF000) <<endl;
+		if ((opcode & 0xF000) == 0xF000) {
+			cout<<"same F"<<endl;
+		}
+
+		if ((opcode & 0xF000) == 0xE000) {
+			cout<<"same E"<<endl;
+		}
+		cout<<endl;
 		executeCaseF();
 		break;
 
 
 	default:
-		printf("Unknown opcode: 0x%X\n\n", opcode);
+		printf("Unknown test opcode: 0x%X\n\n", opcode);
 	}
 }
 
@@ -271,16 +286,15 @@ void Chip8::executeCaseF() {
 		keyPressed = false;
 		for (int i = 0; i < KEYCOUNT; i++) {
 			if (keyPad[i] != 0) {
-				variablesRegister[(opcode & 0x0F00) >> 8] = i; 
+				variablesRegister[vx] = i; 
 				keyPressed = true;
 			}
 		}
 
-		if (!keyPressed) {
-			return;
+		if (keyPressed) {
+			programCounter += 2;	
 		}
 
-		programCounter += 2;;
 		break;
 
 	case 0x0015:
@@ -325,7 +339,7 @@ void Chip8::executeCaseF() {
 		break;
 
 	default:
-		printf("Unknown opcode: 0x%X\n", opcode);
+		printf("Unknown test2 opcode: 0x%X\n", opcode);
 	}
 }
 
@@ -403,7 +417,7 @@ void Chip8::executeCase8() {
 		break;
 
 	default:
-		printf("Unknown opcode: 0x%X\n", opcode);
+		printf("Unknown test3 opcode: 0x%X\n", opcode);
 	}
 }
 
@@ -420,8 +434,8 @@ void Chip8::executeCase0() {
 		programCounter = stack[stackPointer];
 		break;
 
-	default:
-		printf("Unknown opcode: 0x%X\n", opcode);
+	//default:
+		//programCounter += 2;
 	}
 }
 
@@ -430,19 +444,20 @@ void Chip8::drawSprite() {
 	unsigned short x = variablesRegister[(opcode & 0x0F00) >> 8];
 	unsigned short y = variablesRegister[(opcode & 0x00F0) >> 4];
 	unsigned short height = opcode & 0x000F;
-	unsigned short pixel;
+	unsigned short sprite;
+	unsigned short width = 8;
 
 	variablesRegister[0xF] = 0;
-	for (int yline = 0; yline < height; yline++)
+	for (int row = 0; row < height; row++)
 	{
-		pixel = memory[indexRegister + yline];
-		for (int xline = 0; xline < 8; xline++)
+		sprite = memory[indexRegister + row];
+		for (int column = 0; column < width; column++)
 		{
-			if ((pixel & (0x80 >> xline)) != 0)
+			if ((sprite & (0x80 >> column)) != 0)
 			{
-				if (graphicInterface[(x + xline + ((y + yline) * 64))] == 1)
+				if (graphicInterface[(x + column + ((y + row) * 64))] == 1)
 					variablesRegister[0xF] = 1;
-				graphicInterface[x + xline + ((y + yline) * 64)] ^= 1;
+				graphicInterface[x + column + ((y + row) * 64)] ^= 1;
 			}
 		}
 	}
@@ -474,11 +489,11 @@ void Chip8::setDrawFlag(bool flag) {
 	drawFlag = flag;
 }
 
-void Chip8::copyGraphicBuffer(uint32_t* pixels) {
-	uint8_t pixel;
-	for (int i = 0; i < 64 * 32; i++) {
-		pixel = graphicInterface[i];
-		pixels[i] = (0x00FFFFFF * pixel) | 0xFF000000;
+void Chip8::copyGraphicBuffer(uint32_t* pixelMap) {
+	uint8_t sprite;
+	for (int i = 0; i < COLUMNS * ROWS; i++) {
+		sprite = graphicInterface[i];
+		pixelMap[i] = (0x00FFFFFF * sprite) | 0xFF000000;
 	}
 }
 

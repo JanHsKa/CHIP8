@@ -8,6 +8,7 @@ Controller::Controller(const char* file, uint8_t debug) :
 filePath(file) {
 	debugType = debug;
 	emulator = new Chip8();
+	display = new Display();
 
 	keymap.insert({SDLK_1, 0x1});
 	keymap.insert({SDLK_2, 0x2});
@@ -88,11 +89,11 @@ int Controller::emulateProgram()
 					break;
 
 				case SDL_KEYDOWN:
-					addPressedKey(e, 1);
+					changePressedKey(e, 1);
 					break;
 
 				case SDL_KEYUP:
-					addPressedKey(e, 0);
+					changePressedKey(e, 0);
 					break;
 			}
 
@@ -103,14 +104,13 @@ int Controller::emulateProgram()
 
 		if (emulator->getDrawFlag()) {
 			emulator->setDrawFlag(false);
-
+			//SDL_RenderClear(renderer);
 			SDL_UpdateTexture(sdlTexture, NULL, pixelMap, 64 * sizeof(Uint32));
-				SDL_RenderClear(renderer);
-				SDL_RenderCopy(renderer, sdlTexture, NULL, NULL);
-				SDL_RenderPresent(renderer);
+			SDL_RenderCopy(renderer, sdlTexture, NULL, NULL);
+			SDL_RenderPresent(renderer);
 		}
 
-		SDL_Delay(10);
+		SDL_Delay(5);
 	}
 
 
@@ -121,10 +121,67 @@ int Controller::emulateProgram()
 	SDL_Quit();
 
 	return 0;
+	
+}
+
+int Controller::emulateProgramDisplay() {
+cout << "Init Display" <<endl;
+
+	display->initialize();
+	display->clearScreen();
+
+	cout << "Loading file" <<endl;
+
+	loadFile();
+
+	cout << "Finished loading" <<endl;
+
+	bool stop = false;
+
+	cout << "Starting loop" <<endl;
+
+	while(!stop) {
+
+		emulator->processCommand();
+		SDL_Event e;
+
+		while(SDL_PollEvent(&e) > 0)
+			{
+				switch(e.type)
+				{
+					case SDL_QUIT:
+						stop = true;
+						break;
+
+					case SDL_KEYDOWN:
+						changePressedKey(e, 1);
+						break;
+
+					case SDL_KEYUP:
+						changePressedKey(e, 0);
+						break;
+				}
+
+			}
+
+			uint32_t pixelMap[ROWS * COLUMNS];
+			emulator->copyGraphicBuffer(pixelMap);
+
+			if (emulator->getDrawFlag()) {
+				emulator->setDrawFlag(false);
+
+				display->draw(pixelMap);
+			}
+
+			SDL_Delay(5);
+		}
+
+	display->destroy();
+	return 0;
 }
 
 
-void Controller::addPressedKey(SDL_Event event, int value) {
+void Controller::changePressedKey(SDL_Event event, int value) {
 	if (keymap.find(event.key.keysym.sym) != keymap.end()) {
 		emulator->setKeyPadAt(keymap[event.key.keysym.sym], value);
 	}

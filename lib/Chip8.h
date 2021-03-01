@@ -12,7 +12,7 @@ private:
 	unsigned char variablesRegister[VARIABLECOUNT];
 	unsigned short indexRegister;
 	unsigned short programCounter;
-	unsigned char graphicInterface[64 * 32];
+	unsigned char graphicInterface[COLUMNS * ROWS];
 	unsigned char delay_timer;
 	unsigned char sound_timer;
 	unsigned short stack[STACKSIZE];
