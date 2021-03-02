@@ -22,8 +22,6 @@ private:
 public:
 	Controller(const char* , uint8_t);
 	bool loadFile();
-	int emulate();
 	int emulateProgram();
-	int emulateProgramDisplay();
 	int emulateDebug();
 };

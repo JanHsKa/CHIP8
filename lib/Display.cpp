@@ -10,7 +10,8 @@ Display::Display() {
 }
 
 void Display::initialize() {
-	SDL_Window *window = SDL_CreateWindow("CHIP 8",
+
+	window = SDL_CreateWindow("CHIP 8",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
                                           width, height,
@@ -22,7 +23,7 @@ void Display::initialize() {
     }
 
 
-	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	if (renderer == nullptr)
 	{
@@ -31,16 +32,19 @@ void Display::initialize() {
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 	 
-	SDL_Texture* texture = SDL_CreateTexture(renderer,
+	texture = SDL_CreateTexture(renderer,
             SDL_PIXELFORMAT_ARGB8888,
             SDL_TEXTUREACCESS_STREAMING,
             COLUMNS, ROWS); 
 }
 
-void Display::draw(uint32_t* pixelMap) {
+void Display::draw(Uint32* pixelMap) {
     cout<<"Drawing"<<endl;
-    SDL_UpdateTexture(texture, NULL, pixelMap, COLUMNS * sizeof(Uint32));
-	SDL_RenderCopy(renderer, texture, NULL, NULL);
+    int error = 0;
+    error = SDL_UpdateTexture(texture, NULL, pixelMap, COLUMNS * sizeof(Uint32));
+    printf("SDL_Init failed: %s\n", SDL_GetError());
+    error = SDL_RenderCopy(renderer, texture, NULL, NULL);
+    cout<<"renderCopy: "<<error<<endl;
 	SDL_RenderPresent(renderer);
 }
 

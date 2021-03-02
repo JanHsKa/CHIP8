@@ -7,8 +7,8 @@ using namespace std;
 Controller::Controller(const char* file, uint8_t debug) : 
 filePath(file) {
 	debugType = debug;
-	emulator = new Chip8();
 	display = new Display();
+	emulator = new Chip8();
 
 	keymap.insert({SDLK_1, 0x1});
 	keymap.insert({SDLK_2, 0x2});
@@ -34,118 +34,18 @@ bool Controller::loadFile()
 	return emulator->load(filePath);
 }
 
-int Controller::emulateProgram()
-{
-	cout<<"starting emulate"<<endl;
-
-	if (SDL_Init(SDL_INIT_VIDEO) != 0){
-        std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
-        return 1;
-    }
-
-	SDL_Window *window = SDL_CreateWindow("SDL2 Window",
-                                          SDL_WINDOWPOS_CENTERED,
-                                          SDL_WINDOWPOS_CENTERED,
-                                          1024, 512,
-                                          0);
-
-    if(!window)
-    {
-        std::cout << "Failed to create window\n";
-        return -1;
-    }
-
-
-	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	if (renderer == nullptr)
-	{
-		SDL_Log("Could not create a renderer: %s", SDL_GetError());
-		return -1;
-	}
-
-	 
-	SDL_Texture* sdlTexture = SDL_CreateTexture(renderer,
-            SDL_PIXELFORMAT_ARGB8888,
-            SDL_TEXTUREACCESS_STREAMING,
-            64, 32); 
-
-	cout << "Loading file" <<endl;
-
-	loadFile();
-
-	cout << "Finished loading" <<endl;
-
-	bool keep_window_open = true;
-	while(keep_window_open)
-	{
-		emulator->processCommand();
-		SDL_Event e;
-		while(SDL_PollEvent(&e) > 0)
-		{
-			switch(e.type)
-			{
-				case SDL_QUIT:
-					keep_window_open = false;
-					break;
-
-				case SDL_KEYDOWN:
-					changePressedKey(e, 1);
-					break;
-
-				case SDL_KEYUP:
-					changePressedKey(e, 0);
-					break;
-			}
-
-		}
-
-		uint32_t pixelMap[32 * 64];
-		emulator->copyGraphicBuffer(pixelMap);
-
-		if (emulator->getDrawFlag()) {
-			emulator->setDrawFlag(false);
-			//SDL_RenderClear(renderer);
-			SDL_UpdateTexture(sdlTexture, NULL, pixelMap, 64 * sizeof(Uint32));
-			SDL_RenderCopy(renderer, sdlTexture, NULL, NULL);
-			SDL_RenderPresent(renderer);
-		}
-
-		SDL_Delay(5);
-	}
-
-
-	
-
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	SDL_Quit();
-
-	return 0;
-	
-}
-
-int Controller::emulateProgramDisplay() {
-cout << "Init Display" <<endl;
-
+int Controller::emulateProgram() {
 	display->initialize();
-	display->clearScreen();
-
-	cout << "Loading file" <<endl;
 
 	loadFile();
 
-	cout << "Finished loading" <<endl;
-
-	bool stop = false;
-
-	cout << "Starting loop" <<endl;
+	bool stop = false; 
 
 	while(!stop) {
 
-		emulator->processCommand();
 		SDL_Event e;
 
-		while(SDL_PollEvent(&e) > 0)
+		while(SDL_PollEvent(&e) != 0)
 			{
 				switch(e.type)
 				{
@@ -163,17 +63,17 @@ cout << "Init Display" <<endl;
 				}
 
 			}
+		emulator->processCommand();
 
-			uint32_t pixelMap[ROWS * COLUMNS];
-			emulator->copyGraphicBuffer(pixelMap);
+		Uint32 pixelMap[ROWS * COLUMNS];
+		emulator->copyGraphicBuffer(pixelMap);
 
-			if (emulator->getDrawFlag()) {
-				emulator->setDrawFlag(false);
+		if (emulator->getDrawFlag()) {
+			emulator->setDrawFlag(false);
+			display->draw(pixelMap);			
+		}
 
-				display->draw(pixelMap);
-			}
-
-			SDL_Delay(5);
+		SDL_Delay(10);
 		}
 
 	display->destroy();
@@ -193,5 +93,48 @@ int Controller::emulateDebug() {
 	cout << "F7 : Print out current memory" <<endl;
 	cout << "F8 : Run program normal" <<endl;
 	
+
+	display->initialize();
+
+	loadFile();
+
+	bool stop = false; 
+
+	while(!stop) {
+
+		SDL_Event e;
+
+		while(SDL_PollEvent(&e) != 0) {
+				switch(e.type)
+				{
+					case SDL_QUIT:
+						stop = true;
+						break;
+
+					case SDL_KEYDOWN:
+						changePressedKey(e, 1);
+						break;
+
+					case SDL_KEYUP:
+						changePressedKey(e, 0);
+						break;
+				}
+
+		}
+		emulator->processCommand();
+
+		Uint32 pixelMap[ROWS * COLUMNS];
+		emulator->copyGraphicBuffer(pixelMap);
+
+		if (emulator->getDrawFlag()) {
+			emulator->setDrawFlag(false);
+			display->draw(pixelMap);			
+		}
+
+		SDL_Delay(10);
+		}
+
+	display->destroy();
+	return 0;
 	return 0;
 }

@@ -8,7 +8,8 @@
 using namespace std;
 
 
-Chip8::Chip8() :chip8_fontset{ 0xF0, 0x90, 0x90, 0x90, 0xF0, 
+Chip8::Chip8() :chip8_fontset{ 
+	0xF0, 0x90, 0x90, 0x90, 0xF0, 
 	0x20, 0x60, 0x20, 0x20, 0x70, 
 	0xF0, 0x10, 0xF0, 0x80, 0xF0, 
 	0xF0, 0x10, 0xF0, 0x10, 0xF0, 
@@ -496,6 +497,15 @@ void Chip8::copyGraphicBuffer(uint32_t* pixelMap) {
 		pixelMap[i] = (0x00FFFFFF * sprite) | 0xFF000000;
 	}
 }
+
+void Chip8::copyGraphicBuffer() {
+	uint8_t sprite;
+	for (int i = 0; i < COLUMNS * ROWS; i++) {
+		sprite = graphicInterface[i];
+		screen_state[i] = (0x00FFFFFF * sprite) | 0xFF000000;
+	}
+}
+
 
 void Chip8::debugOutput() {
 	cout<< "Current Memory: " << endl;

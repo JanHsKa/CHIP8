@@ -19,6 +19,6 @@ public:
     Display();
     void initialize();
     void clearScreen();
-    void draw(uint32_t* pixelMap);
+    void draw(Uint32* pixelMap);
     void destroy();
 };
