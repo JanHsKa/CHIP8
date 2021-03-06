@@ -1567,7 +1567,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "CVSCOMMAND-NOTFOUND"
+			"value" : "/usr/bin/cvs"
 		},
 		{
 			"name" : "CVS_UPDATE_OPTIONS",

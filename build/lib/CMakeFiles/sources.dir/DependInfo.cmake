@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.cpp" "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib/CMakeFiles/sources.dir/Chip8.cpp.o"
   "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Controller.cpp" "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib/CMakeFiles/sources.dir/Controller.cpp.o"
+  "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Display.cpp" "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib/CMakeFiles/sources.dir/Display.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

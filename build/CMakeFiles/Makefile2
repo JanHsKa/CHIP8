@@ -916,12 +916,12 @@ CMakeFiles/ExperimentalBuild.dir/clean:
 lib/CMakeFiles/sources.dir/all:
 	$(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/depend
 	$(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/CMakeFiles --progress-num=3,4,5 "Built target sources"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/CMakeFiles --progress-num=3,4,5,6 "Built target sources"
 .PHONY : lib/CMakeFiles/sources.dir/all
 
 # Build rule for subdir invocation for target.
 lib/CMakeFiles/sources.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lib/CMakeFiles/sources.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/CMakeFiles 0
 .PHONY : lib/CMakeFiles/sources.dir/rule
@@ -948,7 +948,7 @@ main/CMakeFiles/mainProgram.dir/all: lib/CMakeFiles/sources.dir/all
 
 # Build rule for subdir invocation for target.
 main/CMakeFiles/mainProgram.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main/CMakeFiles/mainProgram.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/CMakeFiles 0
 .PHONY : main/CMakeFiles/mainProgram.dir/rule

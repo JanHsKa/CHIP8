@@ -277,6 +277,33 @@ Controller.cpp.s:
 	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/Controller.cpp.s
 .PHONY : Controller.cpp.s
 
+Display.o: Display.cpp.o
+
+.PHONY : Display.o
+
+# target to build an object file
+Display.cpp.o:
+	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/Display.cpp.o
+.PHONY : Display.cpp.o
+
+Display.i: Display.cpp.i
+
+.PHONY : Display.i
+
+# target to preprocess a source file
+Display.cpp.i:
+	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/Display.cpp.i
+.PHONY : Display.cpp.i
+
+Display.s: Display.cpp.s
+
+.PHONY : Display.s
+
+# target to generate assembly for a file
+Display.cpp.s:
+	cd /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/sources.dir/build.make lib/CMakeFiles/sources.dir/Display.cpp.s
+.PHONY : Display.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -299,6 +326,9 @@ help:
 	@echo "... Controller.o"
 	@echo "... Controller.i"
 	@echo "... Controller.s"
+	@echo "... Display.o"
+	@echo "... Display.i"
+	@echo "... Display.s"
 .PHONY : help
 
 

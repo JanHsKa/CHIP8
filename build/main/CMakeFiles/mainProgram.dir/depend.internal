@@ -4,5 +4,6 @@
 main/CMakeFiles/mainProgram.dir/main.cpp.o
  ../lib/Chip8.h
  ../lib/Controller.h
+ ../lib/Display.h
  ../lib/Macros.h
  /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/main/main.cpp

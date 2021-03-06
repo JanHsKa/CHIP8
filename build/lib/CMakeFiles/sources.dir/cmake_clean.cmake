@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/sources.dir/Chip8.cpp.o"
   "CMakeFiles/sources.dir/Controller.cpp.o"
+  "CMakeFiles/sources.dir/Display.cpp.o"
   "libsources.pdb"
   "libsources.so"
 )

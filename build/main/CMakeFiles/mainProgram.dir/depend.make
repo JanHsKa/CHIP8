@@ -3,6 +3,7 @@
 
 main/CMakeFiles/mainProgram.dir/main.cpp.o: ../lib/Chip8.h
 main/CMakeFiles/mainProgram.dir/main.cpp.o: ../lib/Controller.h
+main/CMakeFiles/mainProgram.dir/main.cpp.o: ../lib/Display.h
 main/CMakeFiles/mainProgram.dir/main.cpp.o: ../lib/Macros.h
 main/CMakeFiles/mainProgram.dir/main.cpp.o: ../main/main.cpp
 

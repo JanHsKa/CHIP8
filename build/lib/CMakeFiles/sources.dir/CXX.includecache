@@ -6,16 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.cpp
-iostream
--
-Chip8.h
-/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.h
-fstream
--
-Macros.h
-/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Macros.h
-
 /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.h
 iostream
 -
@@ -37,8 +27,18 @@ Chip8.h
 /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.h
 SDL2/SDL.h
 /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/SDL2/SDL.h
+Display.h
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Display.h
 map
 -
+
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Display.h
+iostream
+-
+Chip8.h
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Chip8.h
+SDL2/SDL.h
+/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/SDL2/SDL.h
 
 /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Macros.h
 

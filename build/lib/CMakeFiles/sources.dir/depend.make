@@ -8,5 +8,11 @@ lib/CMakeFiles/sources.dir/Chip8.cpp.o: ../lib/Macros.h
 lib/CMakeFiles/sources.dir/Controller.cpp.o: ../lib/Chip8.h
 lib/CMakeFiles/sources.dir/Controller.cpp.o: ../lib/Controller.cpp
 lib/CMakeFiles/sources.dir/Controller.cpp.o: ../lib/Controller.h
+lib/CMakeFiles/sources.dir/Controller.cpp.o: ../lib/Display.h
 lib/CMakeFiles/sources.dir/Controller.cpp.o: ../lib/Macros.h
+
+lib/CMakeFiles/sources.dir/Display.cpp.o: ../lib/Chip8.h
+lib/CMakeFiles/sources.dir/Display.cpp.o: ../lib/Display.cpp
+lib/CMakeFiles/sources.dir/Display.cpp.o: ../lib/Display.h
+lib/CMakeFiles/sources.dir/Display.cpp.o: ../lib/Macros.h
 

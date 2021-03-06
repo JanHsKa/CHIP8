@@ -1,1 +1,1 @@
-/usr/bin/g++ -fPIC -g -shared -Wl,-soname,libsources.so -o libsources.so CMakeFiles/sources.dir/Chip8.cpp.o CMakeFiles/sources.dir/Controller.cpp.o 
+/usr/bin/g++ -fPIC -g -shared -Wl,-soname,libsources.so -o libsources.so CMakeFiles/sources.dir/Chip8.cpp.o CMakeFiles/sources.dir/Controller.cpp.o CMakeFiles/sources.dir/Display.cpp.o 

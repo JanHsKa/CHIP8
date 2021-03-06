@@ -19,8 +19,18 @@ Chip8.h
 ../lib/Chip8.h
 SDL2/SDL.h
 ../lib/SDL2/SDL.h
+Display.h
+../lib/Display.h
 map
 -
+
+../lib/Display.h
+iostream
+-
+Chip8.h
+../lib/Chip8.h
+SDL2/SDL.h
+../lib/SDL2/SDL.h
 
 ../lib/Macros.h
 

@@ -10,6 +10,11 @@
   "file": "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Controller.cpp"
 },
 {
+  "directory": "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib",
+  "command": "/usr/bin/g++ -Dsources_EXPORTS  -g -fPIC -o CMakeFiles/sources.dir/Display.cpp.o -c /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Display.cpp",
+  "file": "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib/Display.cpp"
+},
+{
   "directory": "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/main",
   "command": "/usr/bin/g++  -I/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/lib -I/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/main/CHIP8 -I/usr/include/SDL2 -g -o CMakeFiles/mainProgram.dir/main.cpp.o -c /home/janmalle/Studium/Semester5/Projektarbeit/Chip8/main/main.cpp",
   "file": "/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/main/main.cpp"
