@@ -13,8 +13,8 @@ private:
 	unsigned char graphicInterface[COLUMNS * ROWS];
 	unsigned short indexRegister;
 	unsigned short programCounter;
-	unsigned char delay_timer;
-	unsigned char sound_timer;
+	unsigned char delayTimer;
+	unsigned char soundTimer;
 	unsigned short stack[STACKSIZE];
 	unsigned short stackPointer;
 	unsigned char chip8_fontset[80];

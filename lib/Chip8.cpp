@@ -51,8 +51,8 @@ void Chip8::initialize(){
 	for (int i = 0; i < 80; ++i)
 		memory[i] = chip8_fontset[i];
 
-	delay_timer = 0;
-	sound_timer = 0;
+	delayTimer = 0;
+	soundTimer = 0;
 }
 
 bool  Chip8::load(const char *filePath) {
@@ -113,13 +113,13 @@ void Chip8::processCommand(){
 }
 
 void Chip8::updateTimers(){
-	if (delay_timer > 0)
-		delay_timer--;
+	if (delayTimer > 0)
+		delayTimer--;
 
-	if (sound_timer > 0){
-		if (sound_timer == 1)
+	if (soundTimer > 0){
+		if (soundTimer == 1)
 			printf("BEEP!\n");
-		sound_timer--;
+		soundTimer--;
 	}
 }
 
@@ -279,7 +279,7 @@ void Chip8::executeCaseF() {
 
 	switch (opcode & 0x00FF) {
 	case 0x0007:
-		variablesRegister[vx] = delay_timer;
+		variablesRegister[vx] = delayTimer;
 		programCounter += 2;
 		break;
 		
@@ -299,12 +299,12 @@ void Chip8::executeCaseF() {
 		break;
 
 	case 0x0015:
-		delay_timer = variablesRegister[vx];
+		delayTimer = variablesRegister[vx];
 		programCounter += 2;
 		break;
 
 	case 0x0018:
-		sound_timer = variablesRegister[vx];
+		soundTimer = variablesRegister[vx];
 		programCounter += 2;
 		break;
 		
@@ -513,8 +513,8 @@ void Chip8::debugOutput() {
 	cout << "Program Counter: " << dec << programCounter << endl;
 	cout << "Index Register: " << dec << indexRegister << endl;
 	cout << "Stack Pointer: " << dec << stackPointer << endl;
-	cout << "Delay Timer: " << dec << delay_timer << endl;
-	cout << "Sound Timer: " << dec << sound_timer << endl;
+	cout << "Delay Timer: " << dec << delayTimer << endl;
+	cout << "Sound Timer: " << dec << soundTimer << endl;
 	cout << "Variables: " << dec << programCounter << endl;
 
 	for (int i = 0; i < VARIABLECOUNT; i++) {
