@@ -7,7 +7,7 @@
 using namespace std;
 
 
-class Controller {
+class Emulator {
 private:
 	Chip8* emulator;
 	Display *display; 
@@ -20,8 +20,10 @@ private:
 
 
 public:
-	Controller(const char* , uint8_t);
+	Emulator(const char* , uint8_t);
 	bool loadFile();
+	void initialize();
 	int emulateProgram();
 	int emulateDebug();
+	void emulationCycle();
 };

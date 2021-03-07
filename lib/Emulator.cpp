@@ -1,10 +1,10 @@
-#include "Controller.h"
+#include "Emulator.h"
 #include "SDL2/SDL.h"
 #include "Macros.h"
 
 using namespace std;
 
-Controller::Controller(const char* file, uint8_t debug) : 
+Emulator::Emulator(const char* file, uint8_t debug) : 
 filePath(file) {
 	debugType = debug;
 	display = new Display();
@@ -29,18 +29,27 @@ filePath(file) {
 
 }
 
-bool Controller::loadFile()
+bool Emulator::loadFile()
 {
 	return emulator->load(filePath);
 }
 
-int Controller::emulateProgram() {
+void Emulator::initialize() {
 	display->initialize();
-
 	loadFile();
+}
 
+int Emulator::emulateProgram() {
+	initialize();
+	emulationCycle();
+
+	display->destroy();
+
+	return 0;
+}
+
+void Emulator::emulationCycle() {
 	bool stop = false; 
-
 	while(!stop) {
 
 		SDL_Event e;
@@ -76,18 +85,16 @@ int Controller::emulateProgram() {
 		SDL_Delay(10);
 		}
 
-	display->destroy();
-	return 0;
 }
 
 
-void Controller::changePressedKey(SDL_Event event, int value) {
+void Emulator::changePressedKey(SDL_Event event, int value) {
 	if (keymap.find(event.key.keysym.sym) != keymap.end()) {
 		emulator->setKeyPadAt(keymap[event.key.keysym.sym], value);
 	}
 }
 
-int Controller::emulateDebug() {
+int Emulator::emulateDebug() {
 	cout << "Starting Debug Mode" <<endl;
 	cout << "F6 : Step through program" <<endl;
 	cout << "F7 : Print out current memory" <<endl;
