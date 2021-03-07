@@ -8,7 +8,7 @@ Emulator::Emulator(const char* file, uint8_t debug) :
 filePath(file) {
 	debugType = debug;
 	display = new Display();
-	emulator = new Chip8();
+	cpu = new Chip8();
 
 	keymap.insert({SDLK_1, 0x1});
 	keymap.insert({SDLK_2, 0x2});
@@ -31,7 +31,7 @@ filePath(file) {
 
 bool Emulator::loadFile()
 {
-	return emulator->load(filePath);
+	return cpu->load(filePath);
 }
 
 void Emulator::initialize() {
@@ -49,9 +49,20 @@ int Emulator::emulateProgram() {
 }
 
 void Emulator::emulationCycle() {
-	bool stop = false; 
-	while(!stop) {
+	bool stop = false;
+	unsigned int lastUpdate = SDL_GetTicks(); 
+	int cyclecount = 0;
 
+	while(!stop) {
+		cout<<std::dec;
+		cout<<"lastupdate: "<<lastUpdate<<endl;
+		cout<<"lastupdate + : "<<lastUpdate + REFRESHRATE<<endl<<endl;
+		cout<<"get Ticks: "<<SDL_GetTicks()<<endl;
+		cout<<"difference "<<SDL_GetTicks() - lastUpdate<<endl<<endl;
+
+
+		cyclecount += 1;
+		cout<<"gamecycle round  "<<cyclecount<<endl;
 		SDL_Event e;
 
 		while(SDL_PollEvent(&e) != 0)
@@ -72,25 +83,32 @@ void Emulator::emulationCycle() {
 				}
 
 			}
-		emulator->processCommand();
+		cpu->processCommand();
 
-		Uint32 pixelMap[ROWS * COLUMNS];
-		emulator->copyGraphicBuffer(pixelMap);
+		if (lastUpdate + REFRESHRATE < SDL_GetTicks()) {
+			cout<<"drawcycle round"<<endl;
 
-		if (emulator->getDrawFlag()) {
-			emulator->setDrawFlag(false);
-			display->draw(pixelMap);			
+			Uint32 pixelMap[ROWS * COLUMNS];
+			cpu->copyGraphicBuffer(pixelMap);
+			cpu->updateTimers();
+
+			if (cpu->getDrawFlag()) {
+				cpu->setDrawFlag(false);
+				display->draw(pixelMap);			
+			}
+
+			lastUpdate = SDL_GetTicks();
+			cyclecount = 0;
 		}
-
-		SDL_Delay(10);
-		}
+	SDL_Delay(1);
+	}
 
 }
 
 
 void Emulator::changePressedKey(SDL_Event event, int value) {
 	if (keymap.find(event.key.keysym.sym) != keymap.end()) {
-		emulator->setKeyPadAt(keymap[event.key.keysym.sym], value);
+		cpu->setKeyPadAt(keymap[event.key.keysym.sym], value);
 	}
 }
 
@@ -128,13 +146,13 @@ int Emulator::emulateDebug() {
 				}
 
 		}
-		emulator->processCommand();
+		cpu->processCommand();
 
 		Uint32 pixelMap[ROWS * COLUMNS];
-		emulator->copyGraphicBuffer(pixelMap);
+		cpu->copyGraphicBuffer(pixelMap);
 
-		if (emulator->getDrawFlag()) {
-			emulator->setDrawFlag(false);
+		if (cpu->getDrawFlag()) {
+			cpu->setDrawFlag(false);
 			display->draw(pixelMap);			
 		}
 

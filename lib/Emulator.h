@@ -9,7 +9,7 @@ using namespace std;
 
 class Emulator {
 private:
-	Chip8* emulator;
+	Chip8* cpu;
 	Display *display; 
 	map<SDL_Keycode, uint8_t> keymap;
 	const char* filePath;

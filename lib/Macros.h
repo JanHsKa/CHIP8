@@ -6,4 +6,5 @@
 #define SCALE 15
 #define ROWS 32
 #define COLUMNS 64
+#define REFRESHRATE 16
 

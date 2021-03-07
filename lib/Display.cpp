@@ -6,7 +6,6 @@
 Display::Display() {
     width = SCALE * COLUMNS;
     height = SCALE * ROWS;
-    //initialize();
 }
 
 void Display::initialize() {

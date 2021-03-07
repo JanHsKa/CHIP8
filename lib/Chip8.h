@@ -23,7 +23,6 @@ private:
 
 
 	void decodeOPcode();
-	void updateTimers();
 	void executeCaseF();
 	void executeCase8();
 	void drawSprite();
@@ -36,6 +35,7 @@ public:
 	Chip8();
 	void initialize();
 	void processCommand();
+	void updateTimers();
 	bool load(const char *filePath);
 	void debugOutput();
 

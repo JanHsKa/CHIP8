@@ -104,12 +104,7 @@ void Chip8::processCommand(){
 	cout << "program counter  " << programCounter <<endl;
 	cout<<endl;
 
-
-
-	decodeOPcode();
-
-	updateTimers();
-	
+	decodeOPcode();	
 }
 
 void Chip8::updateTimers(){
