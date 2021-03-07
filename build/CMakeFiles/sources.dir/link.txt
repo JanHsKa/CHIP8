@@ -1,1 +1,0 @@
-/usr/bin/g++ -g -rdynamic CMakeFiles/sources.dir/src/chip8.cpp.o CMakeFiles/sources.dir/src/controller.cpp.o -o sources 

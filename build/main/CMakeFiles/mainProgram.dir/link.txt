@@ -1,1 +1,0 @@
-/usr/bin/g++ -g -rdynamic CMakeFiles/mainProgram.dir/main.cpp.o -o mainProgram  -Wl,-rpath,/home/janmalle/Studium/Semester5/Projektarbeit/Chip8/build/lib: ../lib/libsources.so -L/usr/lib64  -lSDL2 
