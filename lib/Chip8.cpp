@@ -357,25 +357,25 @@ void Chip8::executeCase8() {
 		break;
 
 	case 0x0004:
-		variablesRegister[vx] = variablesRegister[vx] + variablesRegister[vy];
 		if ((variablesRegister[vx] + variablesRegister[vy]) > 0xFF) {
 			variablesRegister[CARRYFLAGINDEX] = 1;
 		}
 		else {
 			variablesRegister[CARRYFLAGINDEX] = 0;
 		}
+		variablesRegister[vx] = variablesRegister[vx] + variablesRegister[vy];
 
 		programCounter += 2;
 		break;
 
 	case 0x0005:
-		variablesRegister[vx] = variablesRegister[vx] - variablesRegister[vy];
 		if (variablesRegister[vx] < variablesRegister[vy]) {
 			variablesRegister[CARRYFLAGINDEX] = 0;
 		}
 		else {
 			variablesRegister[CARRYFLAGINDEX] = 1;
 		}
+		variablesRegister[vx] = variablesRegister[vx] - variablesRegister[vy];
 
 		programCounter += 2;
 		break;
