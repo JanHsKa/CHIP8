@@ -43,7 +43,7 @@ void Chip8::initialize(){
 		keyPad[i] = 0;
 	}
 
-	for (int i = 0; i < sizeof(memory); i++) {
+	for (int i = 0; i < MEMORYSIZE; i++) {
 		memory[i] = 0;
 	}
 	
@@ -107,15 +107,16 @@ void Chip8::processCommand(){
 	decodeOPcode();	
 }
 
-void Chip8::updateTimers(){
+bool Chip8::updateTimers(){
 	if (delayTimer > 0)
 		delayTimer--;
 
 	if (soundTimer > 0){
-		if (soundTimer == 1)
-			printf("BEEP!\n");
 		soundTimer--;
+		return true;
 	}
+
+	return false;
 }
 
 
@@ -127,6 +128,10 @@ void Chip8::decodeOPcode(){
 	unsigned short index;
 	unsigned short startNumber;
 	unsigned rndNumber;
+
+	if (programCounter % 2 != 0) {
+		cout<<"Program Counter: "<<programCounter<<endl;
+	}
 
 	switch (opcode & 0xF000){
 	case 0x0000:
@@ -224,7 +229,6 @@ void Chip8::decodeOPcode(){
 		break;
 
 	case 0xE000:
-		cout<<"Entering case 0xE000"<<endl;
 		switch (opcode & 0x00FF){
 		case 0x009E:
 			vx = (opcode & 0x0F00) >> 8;
@@ -236,8 +240,6 @@ void Chip8::decodeOPcode(){
 			break;
 
 		case 0x00A1:
-			cout<<"Entering case 0xE0A1"<<endl;
-
 			vx = (opcode & 0x0F00) >> 8;
 			if (keyPad[variablesRegister[vx]] == 0) {
 				programCounter += 2;
@@ -246,19 +248,9 @@ void Chip8::decodeOPcode(){
 			programCounter += 2;
 			break;
 		}
+		break;
 			
 	case 0xF000:
-		cout<<"case F cast"<<endl;
-		cout  << std::hex<< opcode<<endl;
-		cout  << std::hex<< (opcode & 0xF000) <<endl;
-		if ((opcode & 0xF000) == 0xF000) {
-			cout<<"same F"<<endl;
-		}
-
-		if ((opcode & 0xF000) == 0xE000) {
-			cout<<"same E"<<endl;
-		}
-		cout<<endl;
 		executeCaseF();
 		break;
 
@@ -437,44 +429,56 @@ void Chip8::executeCase0() {
 
 
 void Chip8::drawSprite() {
-	unsigned short x = variablesRegister[(opcode & 0x0F00) >> 8];
-	unsigned short y = variablesRegister[(opcode & 0x00F0) >> 4];
+	unsigned short VX = variablesRegister[(opcode & 0x0F00) >> 8];
+	unsigned short VY = variablesRegister[(opcode & 0x00F0) >> 4];
 	unsigned short height = opcode & 0x000F;
 	unsigned short sprite;
 	unsigned short width = 8;
+	unsigned short newX = 0;
+	unsigned short newY = 0;
+	unsigned short pixelPosition = 0;
 
+	if (VX == COLUMNS) {
+		cout<<"vx == 0"<<endl;
+	}
+
+	if (VY == ROWS) {
+		cout<<"vy == 0"<<endl;
+	}
 	variablesRegister[0xF] = 0;
 	for (int row = 0; row < height; row++)
 	{
+		newY = (VY + row) % ROWS;
 		sprite = memory[indexRegister + row];
 		for (int column = 0; column < width; column++)
 		{
+			newX = (VX + column) % COLUMNS;
 			if ((sprite & (0x80 >> column)) != 0)
 			{
-				if (graphicInterface[(x + column + ((y + row) * 64))] == 1)
+				if (VX + column >= COLUMNS) {
+					cout<<"x = -"<<endl;
+				}
+				if (VY + row >= ROWS) {
+					cout<<"y = -"<<endl;
+				}
+
+				if (graphicInterface[newX][newY] == 1)
 					variablesRegister[0xF] = 1;
-				graphicInterface[x + column + ((y + row) * 64)] ^= 1;
+
+				graphicInterface[newX][newY] ^= 1;
 			}
 		}
 	}
-
 	drawFlag = true;
 	programCounter += 2;
 }
 
 void Chip8::clearDisplay() {
-	for (int i = 0; i < sizeof(graphicInterface) ; i++) {
-		graphicInterface[i] = 0;
+	for (int i = 0; i < COLUMNS ; i++) {
+		for (int j = 0; j < ROWS ; j++) {
+			graphicInterface[i][j] = 0;
+		}	
 	}
-}
-
-
-int Chip8::getKeyPadAt(int index) {
-	return keyPad[index];
-}
-
-void Chip8::setKeyPadAt(int index, int value) {
-	keyPad[index] = value;
 }
 
 bool Chip8::getDrawFlag() {
@@ -485,19 +489,19 @@ void Chip8::setDrawFlag(bool flag) {
 	drawFlag = flag;
 }
 
-void Chip8::copyGraphicBuffer(uint32_t* pixelMap) {
-	uint8_t sprite;
-	for (int i = 0; i < COLUMNS * ROWS; i++) {
-		sprite = graphicInterface[i];
-		pixelMap[i] = (0x00FFFFFF * sprite) | 0xFF000000;
+void Chip8::updateKeyPad(uint8_t* newKeyPad) {
+	for (int i = 0; i < KEYCOUNT; i++) {
+		keyPad[i] = newKeyPad[i];
 	}
 }
 
-void Chip8::copyGraphicBuffer() {
+void Chip8::copyGraphicBuffer(uint32_t* pixelMap) {
 	uint8_t sprite;
-	for (int i = 0; i < COLUMNS * ROWS; i++) {
-		sprite = graphicInterface[i];
-		screen_state[i] = (0x00FFFFFF * sprite) | 0xFF000000;
+	for (int i = 0; i < COLUMNS; i++) {
+		for (int j = 0; j < ROWS; j++) {
+			sprite = graphicInterface[i][j];
+			pixelMap[i + j*COLUMNS] = (0x00FFFFFF * sprite) | 0xFF000000;
+		}
 	}
 }
 

@@ -41,7 +41,9 @@ void Display::draw(Uint32* pixelMap) {
     cout<<"Drawing"<<endl;
     int error = 0;
     error = SDL_UpdateTexture(texture, NULL, pixelMap, COLUMNS * sizeof(Uint32));
-    printf("SDL_Init failed: %s\n", SDL_GetError());
+    if (error > 0) {
+        printf("SDL_Init failed: %s\n", SDL_GetError());
+    }
     error = SDL_RenderCopy(renderer, texture, NULL, NULL);
     cout<<"renderCopy: "<<error<<endl;
 	SDL_RenderPresent(renderer);

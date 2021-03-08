@@ -3,6 +3,8 @@
 #include "SDL2/SDL.h"
 #include "Display.h"
 #include <map>
+#include "Keyboard.h"
+#include "Soundcontroller.h"
 
 using namespace std;
 
@@ -10,19 +12,23 @@ using namespace std;
 class Emulator {
 private:
 	Chip8* cpu;
-	Display *display; 
+	Display* display; 
+	Keyboard* keyboard;
+	Soundcontroller* soundController;
+
 	map<SDL_Keycode, uint8_t> keymap;
 	const char* filePath;
 	uint8_t debugType;
 
-	void changePressedKey(SDL_Event, int);
+	unsigned int lastUpdate;
 
-
+	bool loadFile();
+	void initialize();
+	void checkForDraw();
+	void checkForRefresh();
 
 public:
 	Emulator(const char* , uint8_t);
-	bool loadFile();
-	void initialize();
 	int emulateProgram();
 	int emulateDebug();
 	void emulationCycle();

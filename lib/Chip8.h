@@ -10,7 +10,7 @@ private:
 	unsigned short opcode;
 	unsigned char memory[MEMORYSIZE];
 	unsigned char variablesRegister[VARIABLECOUNT];
-	unsigned char graphicInterface[COLUMNS * ROWS];
+	uint8_t graphicInterface[COLUMNS][ROWS];
 	unsigned short indexRegister;
 	unsigned short programCounter;
 	unsigned char delayTimer;
@@ -30,20 +30,15 @@ private:
 	void clearDisplay();
 
 public:
-	unsigned int screen_state[ROWS*COLUMNS];
-
 	Chip8();
 	void initialize();
 	void processCommand();
-	void updateTimers();
+	bool updateTimers();
 	bool load(const char *filePath);
 	void debugOutput();
 
 	void copyGraphicBuffer(uint32_t*);
-	void copyGraphicBuffer();
-
-	int getKeyPadAt(int);
-	void setKeyPadAt(int, int);
+	void updateKeyPad(uint8_t*);
 
 	bool getDrawFlag();
 	void setDrawFlag(bool);

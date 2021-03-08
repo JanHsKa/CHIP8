@@ -9,6 +9,8 @@ filePath(file) {
 	debugType = debug;
 	display = new Display();
 	cpu = new Chip8();
+	keyboard = new Keyboard();
+	soundController = new Soundcontroller();
 
 	keymap.insert({SDLK_1, 0x1});
 	keymap.insert({SDLK_2, 0x2});
@@ -35,7 +37,7 @@ bool Emulator::loadFile()
 }
 
 void Emulator::initialize() {
-	display->initialize();
+	display->initialize(); 
 	loadFile();
 }
 
@@ -50,65 +52,36 @@ int Emulator::emulateProgram() {
 
 void Emulator::emulationCycle() {
 	bool stop = false;
-	unsigned int lastUpdate = SDL_GetTicks(); 
-	int cyclecount = 0;
+	lastUpdate = SDL_GetTicks(); 
 
 	while(!stop) {
-		cout<<std::dec;
-		cout<<"lastupdate: "<<lastUpdate<<endl;
-		cout<<"lastupdate + : "<<lastUpdate + REFRESHRATE<<endl<<endl;
-		cout<<"get Ticks: "<<SDL_GetTicks()<<endl;
-		cout<<"difference "<<SDL_GetTicks() - lastUpdate<<endl<<endl;
-
-
-		cyclecount += 1;
-		cout<<"gamecycle round  "<<cyclecount<<endl;
-		SDL_Event e;
-
-		while(SDL_PollEvent(&e) != 0)
-			{
-				switch(e.type)
-				{
-					case SDL_QUIT:
-						stop = true;
-						break;
-
-					case SDL_KEYDOWN:
-						changePressedKey(e, 1);
-						break;
-
-					case SDL_KEYUP:
-						changePressedKey(e, 0);
-						break;
-				}
-
-			}
-		cpu->processCommand();
-
-		if (lastUpdate + REFRESHRATE < SDL_GetTicks()) {
-			cout<<"drawcycle round"<<endl;
-
-			Uint32 pixelMap[ROWS * COLUMNS];
-			cpu->copyGraphicBuffer(pixelMap);
-			cpu->updateTimers();
-
-			if (cpu->getDrawFlag()) {
-				cpu->setDrawFlag(false);
-				display->draw(pixelMap);			
-			}
-
-			lastUpdate = SDL_GetTicks();
-			cyclecount = 0;
+		if (keyboard->checkInput()) {
+			cpu->updateKeyPad(keyboard->getKeypad());
+			stop = keyboard->getQuit();
 		}
-	SDL_Delay(1);
-	}
 
+		cpu->processCommand();
+		checkForRefresh();	
+		SDL_Delay(3);
+	}
 }
 
+void Emulator::checkForRefresh() {
+	if (lastUpdate + REFRESHRATE < SDL_GetTicks()) {
+		if(cpu->updateTimers()) {
+			soundController->playSound();
+		}
+		checkForDraw();
+		lastUpdate = SDL_GetTicks();
+	}
+}
 
-void Emulator::changePressedKey(SDL_Event event, int value) {
-	if (keymap.find(event.key.keysym.sym) != keymap.end()) {
-		cpu->setKeyPadAt(keymap[event.key.keysym.sym], value);
+void Emulator::checkForDraw() {
+	if (cpu->getDrawFlag()) {
+		Uint32 pixelMap[ROWS * COLUMNS];
+		cpu->copyGraphicBuffer(pixelMap);
+		display->draw(pixelMap);			
+		cpu->setDrawFlag(false);
 	}
 }
 
@@ -124,42 +97,20 @@ int Emulator::emulateDebug() {
 	loadFile();
 
 	bool stop = false; 
+	lastUpdate = SDL_GetTicks(); 
 
 	while(!stop) {
 
-		SDL_Event e;
-
-		while(SDL_PollEvent(&e) != 0) {
-				switch(e.type)
-				{
-					case SDL_QUIT:
-						stop = true;
-						break;
-
-					case SDL_KEYDOWN:
-						changePressedKey(e, 1);
-						break;
-
-					case SDL_KEYUP:
-						changePressedKey(e, 0);
-						break;
-				}
-
+		if (keyboard->checkInput()) {
+			cpu->updateKeyPad(keyboard->getKeypad());
+			stop = keyboard->getQuit();
 		}
+
 		cpu->processCommand();
-
-		Uint32 pixelMap[ROWS * COLUMNS];
-		cpu->copyGraphicBuffer(pixelMap);
-
-		if (cpu->getDrawFlag()) {
-			cpu->setDrawFlag(false);
-			display->draw(pixelMap);			
-		}
-
-		SDL_Delay(10);
+		checkForRefresh();
+		SDL_Delay(3);
 		}
 
 	display->destroy();
-	return 0;
 	return 0;
 }

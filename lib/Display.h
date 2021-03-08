@@ -21,5 +21,4 @@ public:
     void clearScreen();
     void draw(Uint32* pixelMap);
     void destroy();
-    void checkKeyboardInput();
 };

@@ -9,6 +9,6 @@ int main(int argc, char** argv) {
         cout << argv[i] << "\n"; 
 	
 	Emulator* emulator = new Emulator(argv[1],0);
-
+	
 	return emulator->emulateProgram();
 }
