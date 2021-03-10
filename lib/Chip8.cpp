@@ -8,7 +8,7 @@
 using namespace std;
 
 
-Chip8::Chip8() :chip8_fontset{ 
+Chip8::Chip8(Keypad* newKeyboard) :chip8_fontset{ 
 	0xF0, 0x90, 0x90, 0x90, 0xF0, 
 	0x20, 0x60, 0x20, 0x20, 0x70, 
 	0xF0, 0x10, 0xF0, 0x80, 0xF0, 
@@ -24,7 +24,8 @@ Chip8::Chip8() :chip8_fontset{
 	0xF0, 0x80, 0x80, 0x80, 0xF0, 
 	0xE0, 0x90, 0x90, 0x90, 0xE0, 
 	0xF0, 0x80, 0xF0, 0x80, 0xF0, 
-	0xF0, 0x80, 0xF0, 0x80, 0x80 }
+	0xF0, 0x80, 0xF0, 0x80, 0x80 },
+	keyboard(newKeyboard)
 {
 	initialize();
 }
@@ -232,7 +233,7 @@ void Chip8::decodeOPcode(){
 		switch (opcode & 0x00FF){
 		case 0x009E:
 			vx = (opcode & 0x0F00) >> 8;
-			if (keyPad[variablesRegister[vx]] != 0) {
+			if (keyboard->isKeypressed(variablesRegister[vx])) {
 				programCounter += 2;
 			}
 
@@ -241,7 +242,7 @@ void Chip8::decodeOPcode(){
 
 		case 0x00A1:
 			vx = (opcode & 0x0F00) >> 8;
-			if (keyPad[variablesRegister[vx]] == 0) {
+			if (!keyboard->isKeypressed(variablesRegister[vx])) {
 				programCounter += 2;
 			}
 
@@ -272,11 +273,9 @@ void Chip8::executeCaseF() {
 		
 	case 0x000A:
 		keyPressed = false;
-		for (int i = 0; i < KEYCOUNT; i++) {
-			if (keyPad[i] != 0) {
-				variablesRegister[vx] = i; 
-				keyPressed = true;
-			}
+		if (keyboard->isAnyKeypressed()) {
+			keyPressed = true;
+			variablesRegister[vx] = keyboard->getPressedKey();
 		}
 
 		if (keyPressed) {

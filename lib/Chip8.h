@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "Macros.h"
+#include "Keypad.h"
 
 
 
@@ -19,6 +20,7 @@ private:
 	unsigned short stackPointer;
 	unsigned char chip8_fontset[80];
 	unsigned char keyPad[16];
+	Keypad* keyboard;
 	bool drawFlag;
 
 
@@ -30,7 +32,7 @@ private:
 	void clearDisplay();
 
 public:
-	Chip8();
+	Chip8(Keypad* newKeyboard);
 	void initialize();
 	void processCommand();
 	bool updateTimers();

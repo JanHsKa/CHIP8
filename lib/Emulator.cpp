@@ -1,5 +1,4 @@
 #include "Emulator.h"
-#include "SDL2/SDL.h"
 #include "Macros.h"
 
 using namespace std;
@@ -8,27 +7,13 @@ Emulator::Emulator(const char* file, uint8_t debug) :
 filePath(file) {
 	debugType = debug;
 	display = new Display();
-	cpu = new Chip8();
-	keyboard = new Keyboard();
+	keyboard = new Keypad();
+	cpu = new Chip8(keyboard);
 	soundController = new Soundcontroller();
 
-	keymap.insert({SDLK_1, 0x1});
-	keymap.insert({SDLK_2, 0x2});
-	keymap.insert({SDLK_3, 0x3});
-	keymap.insert({SDLK_4, 0xC});
-	keymap.insert({SDLK_q, 0x4});
-	keymap.insert({SDLK_w, 0x5});
-	keymap.insert({SDLK_e, 0x6});
-	keymap.insert({SDLK_r, 0xD});
-	keymap.insert({SDLK_a, 0x7});
-	keymap.insert({SDLK_s, 0x8});
-	keymap.insert({SDLK_d, 0x9});
-	keymap.insert({SDLK_f, 0xE});
-	keymap.insert({SDLK_y, 0xA});
-	keymap.insert({SDLK_x, 0x0});
-	keymap.insert({SDLK_c, 0xB});
-	keymap.insert({SDLK_v, 0xF});
+	cpu->copyGraphicBuffer(pixelMap);
 
+	lastUpdate = 0;
 }
 
 bool Emulator::loadFile()
@@ -56,7 +41,6 @@ void Emulator::emulationCycle() {
 
 	while(!stop) {
 		if (keyboard->checkInput()) {
-			cpu->updateKeyPad(keyboard->getKeypad());
 			stop = keyboard->getQuit();
 		}
 
@@ -78,7 +62,6 @@ void Emulator::checkForRefresh() {
 
 void Emulator::checkForDraw() {
 	if (cpu->getDrawFlag()) {
-		Uint32 pixelMap[ROWS * COLUMNS];
 		cpu->copyGraphicBuffer(pixelMap);
 		display->draw(pixelMap);			
 		cpu->setDrawFlag(false);
@@ -102,7 +85,6 @@ int Emulator::emulateDebug() {
 	while(!stop) {
 
 		if (keyboard->checkInput()) {
-			cpu->updateKeyPad(keyboard->getKeypad());
 			stop = keyboard->getQuit();
 		}
 

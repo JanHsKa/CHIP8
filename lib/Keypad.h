@@ -2,21 +2,24 @@
 #include <map>
 #include "SDL2/SDL.h"
 #include "Macros.h"
+#include <bitset>
 
 
 using namespace std;
 
-class Keyboard {
+class Keypad {
 private:
     map<SDL_Keycode, uint8_t> keymap;
-    uint8_t keypad[KEYCOUNT];
+    bitset<KEYCOUNT> keypad;
     bool quit;
 
     void changePressedKey(SDL_Event event, int value);
 
 public:
-    Keyboard();
+    Keypad();
     bool checkInput();
     bool getQuit();
-    uint8_t* getKeypad();
+    bool isKeypressed(int i);
+    bool isAnyKeypressed();
+    int getPressedKey();
 };

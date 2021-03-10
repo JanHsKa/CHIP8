@@ -1,11 +1,7 @@
-#include "Keyboard.h"
+#include "Keypad.h"
 
 
-Keyboard::Keyboard() {
-
-    for (int i = 0; i < KEYCOUNT; i++) {
-		keypad[i] = 0;
-	}
+Keypad::Keypad() {
 
     quit = false;
 
@@ -27,7 +23,7 @@ Keyboard::Keyboard() {
 	keymap.insert({SDLK_v, 0xF});
 }
 
-bool Keyboard::checkInput() {
+bool Keypad::checkInput() {
     bool keypressed = false;
 
     SDL_Event e;
@@ -55,17 +51,32 @@ bool Keyboard::checkInput() {
     return keypressed;
 }
 
-void Keyboard::changePressedKey(SDL_Event event, int value) {
+void Keypad::changePressedKey(SDL_Event event, int value) {
     SDL_Keycode key = event.key.keysym.sym;
 	if (keymap.find(key) != keymap.end()) {
 		keypad[keymap.at(key)] = value;
 	}
 }
 
-bool Keyboard::getQuit() {
-    return quit;
+bool Keypad::isKeypressed(int i) {
+    return keypad[i];
 }
 
-uint8_t* Keyboard::getKeypad() {
-    return keypad;
+bool Keypad::isAnyKeypressed() {
+    return keypad.any();
+}
+
+
+int Keypad::getPressedKey() {
+    for (int i = 0; i < KEYCOUNT; i++) {
+		if (keypad[i]) {
+            return i;
+        }
+	}
+
+    return -1;
+}
+
+bool Keypad::getQuit() {
+    return quit;
 }
