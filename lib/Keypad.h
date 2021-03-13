@@ -10,7 +10,7 @@ using namespace std;
 class Keypad {
 private:
     map<SDL_Keycode, uint8_t> keymap;
-    bitset<KEYCOUNT> keypad;
+    unsigned short keypad[KEYCOUNT];
     bool quit;
 
     void changePressedKey(SDL_Event event, int value);

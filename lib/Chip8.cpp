@@ -35,6 +35,7 @@ void Chip8::initialize(){
 	opcode = 0;      	
 	indexRegister = 0;      
 	stackPointer = 0;      
+	drawFlag = false;
 
 	clearDisplay();
 

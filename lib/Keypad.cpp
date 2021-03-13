@@ -21,6 +21,10 @@ Keypad::Keypad() {
 	keymap.insert({SDLK_x, 0x0});
 	keymap.insert({SDLK_c, 0xB});
 	keymap.insert({SDLK_v, 0xF});
+
+    for (int i = 0; i < KEYCOUNT; i++) {
+        keypad[i] = 0;
+    }
 }
 
 bool Keypad::checkInput() {
@@ -59,11 +63,20 @@ void Keypad::changePressedKey(SDL_Event event, int value) {
 }
 
 bool Keypad::isKeypressed(int i) {
+    if (i < 0 || i > 15) {
+        return false;
+    }
+    
     return keypad[i];
 }
 
 bool Keypad::isAnyKeypressed() {
-    return keypad.any();
+    for (int i = 0; i < KEYCOUNT; i++) {
+        if (keypad[i]) {
+            return true;
+        }
+    }
+    return false;
 }
 
 

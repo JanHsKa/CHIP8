@@ -46,14 +46,14 @@ void Emulator::emulationCycle() {
 
 		cpu->processCommand();
 		checkForRefresh();	
-		SDL_Delay(3);
+		SDL_Delay(1);
 	}
 }
 
 void Emulator::checkForRefresh() {
 	if (lastUpdate + REFRESHRATE < SDL_GetTicks()) {
 		if(cpu->updateTimers()) {
-			soundController->playSound();
+			//soundController->playSound();
 		}
 		checkForDraw();
 		lastUpdate = SDL_GetTicks();
