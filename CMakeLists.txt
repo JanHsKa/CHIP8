@@ -5,8 +5,10 @@ include(CTest)
 enable_testing()
 
 set(CMAKE_BUILD_TYPE Debug)
-#include_directories(include)
 
+
+#set(CMAKE_L_FLAGS "sdl2-config --libs` -lSDL2_ttf")
+#include_directories(include)
 add_subdirectory(lib)
 add_subdirectory(main)
 

@@ -11,7 +11,7 @@
         "program": "${command:cmake.launchTargetPath}",
         "cwd": "${workspaceRoot}",
         //"preLaunchTask": "build",
-        "args": ["${workspaceRoot}/testgames/INVADERS"],
+        "args": ["${workspaceRoot}/testgames/BLITZ"],
         "environment": [
             {
                 "name": "PATH",

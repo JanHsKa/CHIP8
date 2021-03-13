@@ -23,6 +23,8 @@ bool Emulator::loadFile()
 
 void Emulator::initialize() {
 	display->initialize(); 
+	display->initDebugWindow();
+	display->drawDebug();
 	loadFile();
 }
 
