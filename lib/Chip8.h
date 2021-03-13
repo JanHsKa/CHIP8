@@ -8,18 +8,17 @@
 
 class Chip8 {
 private:
-	unsigned short opcode;
-	unsigned char memory[MEMORYSIZE];
-	unsigned char variablesRegister[VARIABLECOUNT];
+	uint16_t opcode;
+	uint16_t indexRegister;
+	uint16_t programCounter;
+	uint16_t stack[STACKSIZE];
+	uint16_t stackPointer;
+	uint8_t memory[MEMORYSIZE];
+	uint8_t variablesRegister[VARIABLE_COUNT];
 	uint8_t graphicInterface[COLUMNS][ROWS];
-	unsigned short indexRegister;
-	unsigned short programCounter;
-	unsigned char delayTimer;
-	unsigned char soundTimer;
-	unsigned short stack[STACKSIZE];
-	unsigned short stackPointer;
-	unsigned char chip8_fontset[80];
-	unsigned char keyPad[16];
+	uint8_t delayTimer;
+	uint8_t soundTimer;
+	uint8_t chip8_fontset[80];
 	Keypad* keyboard;
 	bool drawFlag;
 
@@ -40,7 +39,6 @@ public:
 	void debugOutput();
 
 	void copyGraphicBuffer(uint32_t*);
-	void updateKeyPad(uint8_t*);
 
 	bool getDrawFlag();
 	void setDrawFlag(bool);

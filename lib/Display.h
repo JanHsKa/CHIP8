@@ -14,6 +14,9 @@ private:
     int debugHeight;
     int debugWidth;
 
+    Chip8 *cpu;
+	Uint32 pixelMap[ROWS * COLUMNS];
+
     SDL_Texture *texture;
     SDL_Renderer *renderer;
     SDL_Window *window;
@@ -26,12 +29,13 @@ private:
     SDL_Surface *debugSurface;
     SDL_Color debugColor;
 
+    void draw();
 public:
-    Display();
+    Display(Chip8 *chip8);
     void initialize();
     void initDebugWindow();
+    void checkForDraw();
     void clearScreen();
-    void draw(Uint32* pixelMap);
     void drawDebug();
     void destroy();
 };

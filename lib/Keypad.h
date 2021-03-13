@@ -17,6 +17,7 @@ private:
 
 public:
     Keypad();
+    void initialize();
     bool checkInput();
     bool getQuit();
     bool isKeypressed(int i);

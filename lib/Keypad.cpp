@@ -2,9 +2,6 @@
 
 
 Keypad::Keypad() {
-
-    quit = false;
-
     keymap.insert({SDLK_1, 0x1});
 	keymap.insert({SDLK_2, 0x2});
 	keymap.insert({SDLK_3, 0x3});
@@ -22,10 +19,17 @@ Keypad::Keypad() {
 	keymap.insert({SDLK_c, 0xB});
 	keymap.insert({SDLK_v, 0xF});
 
-    for (int i = 0; i < KEYCOUNT; i++) {
-        keypad[i] = 0;
-    }
+    initialize();
 }
+
+void Keypad::initialize() {
+    quit = false;
+
+    for (int i = 0; i < KEYCOUNT; i++) {
+            keypad[i] = 0;
+        }
+}
+
 
 bool Keypad::checkInput() {
     bool keypressed = false;

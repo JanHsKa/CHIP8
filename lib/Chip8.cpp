@@ -31,7 +31,7 @@ Chip8::Chip8(Keypad* newKeyboard) :chip8_fontset{
 }
 
 void Chip8::initialize(){
-	programCounter = 0x200;  
+	programCounter = PROGRAM_START;  
 	opcode = 0;      	
 	indexRegister = 0;      
 	stackPointer = 0;      
@@ -42,7 +42,6 @@ void Chip8::initialize(){
 	for (int i = 0; i < STACKSIZE; i++) {
 		stack[i] = 0;
 		variablesRegister[i] = 0;
-		keyPad[i] = 0;
 	}
 
 	for (int i = 0; i < MEMORYSIZE; i++) {
@@ -61,7 +60,7 @@ bool  Chip8::load(const char *filePath) {
 	FILE* file = fopen(filePath, "r");
 
 	if (file == NULL) {
-		cerr << "Failed to open ROM" << std::endl;
+		cerr << "Failed to open ROM" <<endl;
 		return false;
 	}
 
@@ -74,17 +73,17 @@ bool  Chip8::load(const char *filePath) {
 	size_t readSize = fread(fileBuffer, sizeof(char), (size_t)fileSize, file);
 
 	if (readSize != fileSize) {
-		cerr << "Failed to read ROM" << std::endl;
+		cerr << "Failed to read ROM" <<endl;
 		return false;
 	}
 
 	if (fileSize > (MEMORYSIZE - 512)) {
-		cerr << "ROM is to large to read in to memory" << std::endl;
+		cerr << "ROM is to large to read in to memory" <<endl;
 		return false;
 	} 
 	else {
 		for (int i = 0; i < fileSize; i++) {
-			memory[i + 512] = (char)fileBuffer[i];
+			memory[i + PROGRAM_START] = (char)fileBuffer[i];
 		}
 	}
 
@@ -258,7 +257,7 @@ void Chip8::decodeOPcode(){
 
 
 	default:
-		printf("Unknown test opcode: 0x%X\n\n", opcode);
+		cerr<<"Unknown opcode: "<<hex<<opcode<<endl;
 	}
 }
 
@@ -327,7 +326,7 @@ void Chip8::executeCaseF() {
 		break;
 
 	default:
-		printf("Unknown test2 opcode: 0x%X\n", opcode);
+		cerr<<"Unknown opcode: "<<hex<<opcode<<endl;
 	}
 }
 
@@ -358,10 +357,10 @@ void Chip8::executeCase8() {
 
 	case 0x0004:
 		if ((variablesRegister[vx] + variablesRegister[vy]) > 0xFF) {
-			variablesRegister[CARRYFLAGINDEX] = 1;
+			variablesRegister[CARRY_FLAG_INDEX] = 1;
 		}
 		else {
-			variablesRegister[CARRYFLAGINDEX] = 0;
+			variablesRegister[CARRY_FLAG_INDEX] = 0;
 		}
 		variablesRegister[vx] = variablesRegister[vx] + variablesRegister[vy];
 
@@ -370,10 +369,10 @@ void Chip8::executeCase8() {
 
 	case 0x0005:
 		if (variablesRegister[vx] < variablesRegister[vy]) {
-			variablesRegister[CARRYFLAGINDEX] = 0;
+			variablesRegister[CARRY_FLAG_INDEX] = 0;
 		}
 		else {
-			variablesRegister[CARRYFLAGINDEX] = 1;
+			variablesRegister[CARRY_FLAG_INDEX] = 1;
 		}
 		variablesRegister[vx] = variablesRegister[vx] - variablesRegister[vy];
 
@@ -381,7 +380,7 @@ void Chip8::executeCase8() {
 		break;
 
 	case 0x0006:
-		variablesRegister[CARRYFLAGINDEX] = variablesRegister[vx] & 0x1;
+		variablesRegister[CARRY_FLAG_INDEX] = variablesRegister[vx] & 0x1;
 		variablesRegister[vx] = variablesRegister[vx] >> 1;
 		programCounter += 2;
 		break;
@@ -389,23 +388,24 @@ void Chip8::executeCase8() {
 	case 0x0007:
 		variablesRegister[vx] = variablesRegister[vy] - variablesRegister[vx];
 		if (variablesRegister[vy] < variablesRegister[vx]) {
-			variablesRegister[CARRYFLAGINDEX] = 0;
+			variablesRegister[CARRY_FLAG_INDEX] = 0;
 		}
 		else {
-			variablesRegister[CARRYFLAGINDEX] = 1;
+			variablesRegister[CARRY_FLAG_INDEX] = 1;
 		}
 
 		programCounter += 2;
 		break;
 
 	case 0x000E:
-		variablesRegister[CARRYFLAGINDEX] = variablesRegister[vx] & 0b10000000;
+		variablesRegister[CARRY_FLAG_INDEX] = variablesRegister[vx] & 0b10000000;
 		variablesRegister[vx] = variablesRegister[vx] << 1;
 		programCounter += 2;
 		break;
 
 	default:
-		printf("Unknown test3 opcode: 0x%X\n", opcode);
+		cerr<<"Unknown opcode: "<<hex<<opcode<<endl;
+
 	}
 }
 
@@ -489,12 +489,6 @@ void Chip8::setDrawFlag(bool flag) {
 	drawFlag = flag;
 }
 
-void Chip8::updateKeyPad(uint8_t* newKeyPad) {
-	for (int i = 0; i < KEYCOUNT; i++) {
-		keyPad[i] = newKeyPad[i];
-	}
-}
-
 void Chip8::copyGraphicBuffer(uint32_t* pixelMap) {
 	uint8_t sprite;
 	for (int i = 0; i < COLUMNS; i++) {
@@ -516,7 +510,7 @@ void Chip8::debugOutput() {
 	cout << "Sound Timer: " << dec << soundTimer << endl;
 	cout << "Variables: " << dec << programCounter << endl;
 
-	for (int i = 0; i < VARIABLECOUNT; i++) {
+	for (int i = 0; i < VARIABLE_COUNT; i++) {
 		cout << "[" << i << "] : " <<  variablesRegister[i] << endl;
 	}
 

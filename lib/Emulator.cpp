@@ -6,14 +6,13 @@ using namespace std;
 Emulator::Emulator(const char* file, uint8_t debug) : 
 filePath(file) {
 	debugType = debug;
-	display = new Display();
 	keyboard = new Keypad();
 	cpu = new Chip8(keyboard);
+	display = new Display(cpu);
 	soundController = new Soundcontroller();
 
-	cpu->copyGraphicBuffer(pixelMap);
 
-	lastUpdate = 0;
+	initialize();
 }
 
 bool Emulator::loadFile()
@@ -22,15 +21,21 @@ bool Emulator::loadFile()
 }
 
 void Emulator::initialize() {
+	lastUpdate = 0;
+	loadedFile = false;
 	display->initialize(); 
-	display->initDebugWindow();
-	display->drawDebug();
-	loadFile();
+	//display->initDebugWindow();
+	//display->drawDebug();
+	loadedFile = loadFile();
 }
 
 int Emulator::emulateProgram() {
-	initialize();
-	emulationCycle();
+	if (loadedFile) {
+		emulationCycle();
+
+	} else {
+		cerr<<"Failed to load program file";
+	}
 
 	display->destroy();
 
@@ -57,18 +62,12 @@ void Emulator::checkForRefresh() {
 		if(cpu->updateTimers()) {
 			//soundController->playSound();
 		}
-		checkForDraw();
+		display->checkForDraw();
 		lastUpdate = SDL_GetTicks();
 	}
 }
 
-void Emulator::checkForDraw() {
-	if (cpu->getDrawFlag()) {
-		cpu->copyGraphicBuffer(pixelMap);
-		display->draw(pixelMap);			
-		cpu->setDrawFlag(false);
-	}
-}
+
 
 int Emulator::emulateDebug() {
 	cout << "Starting Debug Mode" <<endl;

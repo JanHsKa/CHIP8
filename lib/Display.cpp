@@ -4,12 +4,16 @@
 #include "SDL2/SDL_ttf.h"
 
 
-Display::Display(): 
-    debugColor({0,0,0,0}) {
+Display::Display(Chip8 *chip8): 
+    debugColor({0,0,0,0}),
+    cpu(chip8) {
     width = SCALE * COLUMNS;
     height = SCALE * ROWS;
     debugHeight = 480;
     debugWidth = 640;
+
+	cpu->copyGraphicBuffer(pixelMap);
+
 }
 
 void Display::initialize() {
@@ -23,7 +27,7 @@ void Display::initialize() {
 
     if(!window)
     {
-        std::cout << "Failed to create window\n";
+        cout << "Failed to create window\n";
     }
 
 
@@ -55,19 +59,27 @@ void Display::initDebugWindow() {
 
     if(!debugWindow)
     {
-        std::cout << "Failed to create window\n";
+        cout << "Failed to create window\n";
     }
-
-    debugFont = TTF_OpenFont("Font/arial.ttf", 30);
-	debugRenderer = SDL_CreateRenderer(debugWindow, -1, SDL_RENDERER_ACCELERATED);
 
 	if (debugRenderer == nullptr)
 	{
 		SDL_Log("Could not create a renderer: %s", SDL_GetError());
 	}
+
+    debugFont = TTF_OpenFont("Font/arial.ttf", 30);
+	debugRenderer = SDL_CreateRenderer(debugWindow, -1, SDL_RENDERER_ACCELERATED);
 }
 
-void Display::draw(Uint32* pixelMap) {
+void Display::checkForDraw() {
+	if (cpu->getDrawFlag()) {
+		cpu->copyGraphicBuffer(pixelMap);
+		draw();			
+		cpu->setDrawFlag(false);
+	}
+}
+
+void Display::draw() {
     cout<<"Drawing"<<endl;
     int error = 0;
     error = SDL_UpdateTexture(texture, NULL, pixelMap, COLUMNS * sizeof(Uint32));
@@ -83,11 +95,11 @@ void Display::drawDebug() {
     int success = 0;
 
     debugSurface = TTF_RenderText_Solid(debugFont, "das ist ein test text", debugColor);
-    SDL_Rect rect;
-     rect.x = 0;
-     rect.y = 0;
-     rect.w = debugSurface->w;
-     rect.h = debugSurface->h;
+    SDL_Rect textRectangle;
+     textRectangle.x = 0;
+     textRectangle.y = 0;
+     textRectangle.w = debugSurface->w;
+     textRectangle.h = debugSurface->h;
 
     SDL_Rect startPos;
     startPos.x = 0;
@@ -99,7 +111,7 @@ void Display::drawDebug() {
 	debugTexture = SDL_CreateTextureFromSurface(debugRenderer,
             debugSurface); 
     SDL_SetRenderDrawColor(debugRenderer, 200, 200, 200, 200);
-    success = SDL_QueryTexture(debugTexture, NULL, NULL, &rect.x, &rect.y);
+    success = SDL_QueryTexture(debugTexture, NULL, NULL, &textRectangle.x, &textRectangle.y);
 
     cout<<"query success: "<<success<<endl;
 

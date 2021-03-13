@@ -17,10 +17,9 @@ private:
 
 	const char* filePath;
 	uint8_t debugType;
-	Uint32 pixelMap[ROWS * COLUMNS];
-
 
 	unsigned int lastUpdate;
+	bool loadedFile;
 
 	bool loadFile();
 	void initialize();
