@@ -34,11 +34,11 @@ void Keypad::initialize() {
 bool Keypad::checkInput() {
     bool keypressed = false;
 
-    SDL_Event e;
+    SDL_Event event;
 
-    while(SDL_PollEvent(&e) != 0)
+    while(SDL_PollEvent(&event) != 0)
     {
-        switch(e.type)
+        switch(event.type)
         {
             case SDL_QUIT:
                 quit = true;
@@ -46,12 +46,12 @@ bool Keypad::checkInput() {
                 break;
 
             case SDL_KEYDOWN:
-                changePressedKey(e, 1);
+                changePressedKey(event, 1);
                 keypressed = true;
                 break;
 
             case SDL_KEYUP:
-                changePressedKey(e, 0);
+                changePressedKey(event, 0);
                 keypressed = true;
                 break;
         }

@@ -123,12 +123,10 @@ bool Chip8::updateTimers(){
 
 void Chip8::decodeOPcode(){
 	cout<<"starting decode"<<endl;
-	unsigned short vx;
-	unsigned short nn;
-	unsigned short vy;
+	unsigned short vx = (opcode & 0x0F00) >> 8;
+	unsigned short nn = opcode & 0x00FF;
+	unsigned short vy = (opcode & 0x00F0) >> 4;
 	unsigned short index;
-	unsigned short startNumber;
-	unsigned rndNumber;
 
 	if (programCounter % 2 != 0) {
 		cout<<"Program Counter: "<<programCounter<<endl;
@@ -151,45 +149,32 @@ void Chip8::decodeOPcode(){
 		break;
 
 	case 0x3000:
-		vx = (opcode & 0x0F00) >> 8;
-		nn = opcode & 0x00FF;
 		if (variablesRegister[vx] == nn) {
 			programCounter += 2;
 		}
-
 		programCounter += 2;
 		break;
 
 	case 0x4000:
-		vx = (opcode & 0x0F00) >> 8;
-		nn = opcode & 0x00FF;
 		if (variablesRegister[vx] != nn){
 			programCounter += 2;
 		}
-
 		programCounter += 2;
 		break;
 
 	case 0x5000:
-		vx = (opcode & 0x0F00) >> 8;
-		vy = (opcode & 0x00F0) >> 4;
 		if (variablesRegister[vx] == variablesRegister[vy]){
 			programCounter += 2;
 		}
-
 		programCounter += 2;
 		break;
 
 	case 0x6000:
-		vx = (opcode & 0x0F00) >> 8;
-		nn = opcode & 0x00FF;
 		variablesRegister[vx] = nn;
 		programCounter += 2;
 		break;
 
 	case 0x7000:
-		vx = (opcode & 0x0F00) >> 8;
-		nn = opcode & 0x00FF;
 		variablesRegister[vx] += nn;
 		programCounter += 2;
 		break;
@@ -199,8 +184,6 @@ void Chip8::decodeOPcode(){
 		break;
 
 	case 0x9000:
-		vx = (opcode & 0x0F00) >> 8;
-		vy = (opcode & 0x00F0) >> 4;
 		if (variablesRegister[vx] != variablesRegister[vy]){
 			programCounter += 2;
 		}
@@ -218,6 +201,8 @@ void Chip8::decodeOPcode(){
 		break;
 
 	case 0xC000:
+		uint8_t rndNumber;
+		unsigned short startNumber;
 		index = (opcode & 0x0F00) >> 8;
 		startNumber = opcode & 0x00FF;
 		rndNumber = (rand() % 0xFF + 1) & startNumber;
@@ -232,7 +217,6 @@ void Chip8::decodeOPcode(){
 	case 0xE000:
 		switch (opcode & 0x00FF){
 		case 0x009E:
-			vx = (opcode & 0x0F00) >> 8;
 			if (keyboard->isKeypressed(variablesRegister[vx])) {
 				programCounter += 2;
 			}
@@ -241,7 +225,6 @@ void Chip8::decodeOPcode(){
 			break;
 
 		case 0x00A1:
-			vx = (opcode & 0x0F00) >> 8;
 			if (!keyboard->isKeypressed(variablesRegister[vx])) {
 				programCounter += 2;
 			}
@@ -305,23 +288,37 @@ void Chip8::executeCaseF() {
 		break;
 
 	case 0x0033:
-		memory[indexRegister] = variablesRegister[vx] / 100;
-		memory[indexRegister + 1] = (variablesRegister[vx] / 10) % 10;
-		memory[indexRegister + 2] = variablesRegister[vx] % 10;
+		if ( indexRegister < MEMORYSIZE - 3) {
+			memory[indexRegister] = variablesRegister[vx] / 100;
+			memory[indexRegister + 1] = (variablesRegister[vx] / 10) % 10;
+			memory[indexRegister + 2] = variablesRegister[vx] % 10;
+
+		} else {
+			cerr<<"Failed to execute "<<hex<<opcode<<", indexRegister is out of bounds of Memory"<<endl;
+		}
 		programCounter += 2;
 		break;
 
 	case 0x0055:
-		for (int i = 0; i < vx + 1; i++) {
-			memory[indexRegister + i] = variablesRegister[i];
+		if (indexRegister + vx < MEMORYSIZE) {
+			for (int i = 0; i < vx + 1; i++) {
+				memory[indexRegister + i] = variablesRegister[i];
+			}
+		} else {
+			cerr<<"Failed to execute "<<hex<<opcode<<", indexRegister is out of bounds of Memory"<<endl;
 		}
 		programCounter += 2;
 		break;
 
 	case 0x0065:
-		for (int i = 0; i < vx + 1; i++) {
-			variablesRegister[i] = memory[indexRegister + i];
+		if (indexRegister + vx < MEMORYSIZE) {
+			for (int i = 0; i < vx + 1; i++) {
+				variablesRegister[i] = memory[indexRegister + i];
+			}
+		} else {
+			cerr<<"Failed to execute "<<hex<<opcode<<", indexRegister is out of bounds of Memory"<<endl;
 		}
+
 		programCounter += 2;
 		break;
 
@@ -331,75 +328,75 @@ void Chip8::executeCaseF() {
 }
 
 void Chip8::executeCase8() {
-	unsigned short vx = (opcode & 0x0F00) >> 8;
-	unsigned short vy = (opcode & 0x00F0) >> 4;
+	unsigned short x = (opcode & 0x0F00) >> 8;
+	unsigned short y = (opcode & 0x00F0) >> 4;
 
 	switch (opcode & 0x000F) {
 	case 0x0000:
-		variablesRegister[vx] = variablesRegister[vy];
+		variablesRegister[x] = variablesRegister[y];
 		programCounter += 2;
 		break;
 
 	case 0x0001:
-		variablesRegister[vx] = variablesRegister[vx] | variablesRegister[vy];
+		variablesRegister[x] |= variablesRegister[y];
 		programCounter += 2;
 		break;
 
 	case 0x0002:
-		variablesRegister[vx] = variablesRegister[vx] & variablesRegister[vy];
+		variablesRegister[x] &= variablesRegister[y];
 		programCounter += 2;
 		break;
 
 	case 0x0003:
-		variablesRegister[vx] = variablesRegister[vx] ^ variablesRegister[vy];
+		variablesRegister[x] ^= variablesRegister[y];
 		programCounter += 2;
 		break;
 
 	case 0x0004:
-		if ((variablesRegister[vx] + variablesRegister[vy]) > 0xFF) {
+		if ((variablesRegister[x] + variablesRegister[y]) > 0xFF) {
 			variablesRegister[CARRY_FLAG_INDEX] = 1;
 		}
 		else {
 			variablesRegister[CARRY_FLAG_INDEX] = 0;
 		}
-		variablesRegister[vx] = variablesRegister[vx] + variablesRegister[vy];
+		variablesRegister[x] += variablesRegister[y];
 
 		programCounter += 2;
 		break;
 
 	case 0x0005:
-		if (variablesRegister[vx] < variablesRegister[vy]) {
+		if (variablesRegister[x] < variablesRegister[y]) {
 			variablesRegister[CARRY_FLAG_INDEX] = 0;
 		}
 		else {
 			variablesRegister[CARRY_FLAG_INDEX] = 1;
 		}
-		variablesRegister[vx] = variablesRegister[vx] - variablesRegister[vy];
+		variablesRegister[x] -= variablesRegister[y];
 
 		programCounter += 2;
 		break;
 
 	case 0x0006:
-		variablesRegister[CARRY_FLAG_INDEX] = variablesRegister[vx] & 0x1;
-		variablesRegister[vx] = variablesRegister[vx] >> 1;
+		variablesRegister[CARRY_FLAG_INDEX] = variablesRegister[x] & 0x1;
+		variablesRegister[x] >>= 1;
 		programCounter += 2;
 		break;
 
 	case 0x0007:
-		variablesRegister[vx] = variablesRegister[vy] - variablesRegister[vx];
-		if (variablesRegister[vy] < variablesRegister[vx]) {
+		if (variablesRegister[y] < variablesRegister[x]) {
 			variablesRegister[CARRY_FLAG_INDEX] = 0;
 		}
 		else {
 			variablesRegister[CARRY_FLAG_INDEX] = 1;
 		}
+		variablesRegister[x] = variablesRegister[y] - variablesRegister[x];
 
 		programCounter += 2;
 		break;
 
 	case 0x000E:
-		variablesRegister[CARRY_FLAG_INDEX] = variablesRegister[vx] & 0b10000000;
-		variablesRegister[vx] = variablesRegister[vx] << 1;
+		variablesRegister[CARRY_FLAG_INDEX] = variablesRegister[x] & 0b10000000;
+		variablesRegister[x] = variablesRegister[x] << 1;
 		programCounter += 2;
 		break;
 
