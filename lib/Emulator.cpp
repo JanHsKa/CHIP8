@@ -23,10 +23,10 @@ bool Emulator::loadFile()
 void Emulator::initialize() {
 	lastUpdate = 0;
 	loadedFile = false;
-	display->initialize(); 
-	//display->initDebugWindow();
-	//display->drawDebug();
 	loadedFile = loadFile();
+	display->initialize(); 
+	display->initDebugWindow();
+	display->drawDebug();
 }
 
 int Emulator::emulateProgram() {

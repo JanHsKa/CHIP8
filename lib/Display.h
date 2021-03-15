@@ -2,6 +2,8 @@
 #include "Chip8.h"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
+#include "DebugTexture.h"
+#include <vector>
 
 using namespace std;
 
@@ -13,6 +15,11 @@ private:
     int columns;
     int debugHeight;
     int debugWidth;
+    int fontSize;
+
+    vector<string> debugOutput;
+    vector<DebugTexture*> opcodeTexture;
+    vector<SDL_Texture*> normalTexture;
 
     Chip8 *cpu;
 	Uint32 pixelMap[ROWS * COLUMNS];
@@ -30,6 +37,10 @@ private:
     SDL_Color debugColor;
 
     void draw();
+    void loadOpcode();
+    string opcodeToString(int opcode);
+    void drawDebugLine(string output, int startY);
+    void createTextures();
 public:
     Display(Chip8 *chip8);
     void initialize();

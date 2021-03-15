@@ -21,7 +21,7 @@ private:
 	uint8_t chip8_fontset[80];
 	Keypad* keyboard;
 	bool drawFlag;
-
+	int programSize;
 
 	void decodeOPcode();
 	void executeCaseF();
@@ -40,6 +40,8 @@ public:
 
 	void copyGraphicBuffer(uint32_t*);
 
+	uint16_t getOpcode(int pc); 
+	int getProgramSize();
 	bool getDrawFlag();
 	void setDrawFlag(bool);
 

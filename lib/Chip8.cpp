@@ -31,6 +31,7 @@ Chip8::Chip8(Keypad* newKeyboard) :chip8_fontset{
 }
 
 void Chip8::initialize(){
+	programSize = 0;
 	programCounter = PROGRAM_START;  
 	opcode = 0;      	
 	indexRegister = 0;      
@@ -82,6 +83,7 @@ bool  Chip8::load(const char *filePath) {
 		return false;
 	} 
 	else {
+		programSize = readSize / 2;
 		for (int i = 0; i < fileSize; i++) {
 			memory[i + PROGRAM_START] = (char)fileBuffer[i];
 		}
@@ -496,6 +498,13 @@ void Chip8::copyGraphicBuffer(uint32_t* pixelMap) {
 	}
 }
 
+uint16_t Chip8::getOpcode(int pc) {
+	return memory[pc] << 8 | memory[pc+1];
+}
+
+int Chip8::getProgramSize() {
+	return programSize;
+}
 
 void Chip8::debugOutput() {
 	cout<< "Current Memory: " << endl;

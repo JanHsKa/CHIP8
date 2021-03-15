@@ -8,4 +8,5 @@
 #define COLUMNS 64
 #define REFRESHRATE 16
 #define PROGRAM_START 0x200
+#define DEBUG_LINES 20
 
