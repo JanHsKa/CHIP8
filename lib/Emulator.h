@@ -1,7 +1,9 @@
+#pragma once
 #include <iostream>
 #include "Chip8.h"
 #include "SDL2/SDL.h"
 #include "Display.h"
+#include "DebugDisplay.h"
 #include <map>
 #include "Soundcontroller.h"
 
@@ -14,6 +16,7 @@ private:
 	Display* display; 
 	Keypad* keyboard;
 	Soundcontroller* soundController;
+	DebugDisplay* debugDisplay;
 
 	const char* filePath;
 	uint8_t debugType;

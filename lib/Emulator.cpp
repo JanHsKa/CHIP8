@@ -10,6 +10,7 @@ filePath(file) {
 	cpu = new Chip8(keyboard);
 	display = new Display(cpu);
 	soundController = new Soundcontroller();
+	debugDisplay = new DebugDisplay(cpu);
 
 
 	initialize();
@@ -25,8 +26,8 @@ void Emulator::initialize() {
 	loadedFile = false;
 	loadedFile = loadFile();
 	display->initialize(); 
-	display->initDebugWindow();
-	display->drawDebug();
+	debugDisplay->initialize();
+	debugDisplay->draw();
 }
 
 int Emulator::emulateProgram() {

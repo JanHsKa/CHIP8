@@ -1,5 +1,5 @@
 
-set (libSrcs Chip8.cpp Emulator.cpp Display.cpp Keypad.cpp Soundcontroller.cpp DebugTexture.cpp)
+set (libSrcs Chip8.cpp Emulator.cpp Display.cpp Keypad.cpp Soundcontroller.cpp DebugTexture.cpp DebugDisplay.cpp) 
 
 add_library(sources SHARED ${libSrcs})
 
