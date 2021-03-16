@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
+#include "GameDisplay.h"
 #include "Display.h"
-
 using namespace std;
 
 struct DebugOpcode {
@@ -11,7 +11,7 @@ struct DebugOpcode {
 };
 
 
-class DebugDisplay : Display {
+class DebugDisplay : public Display {
 private:
     int fontSize;
     int debugOffset;
@@ -31,15 +31,18 @@ private:
     string opcodeToString(int opcode);
     void drawDebugLine(string output, int startY);
     void createTextures();
-    void scrollText(SDL_MouseWheelEvent wheel);
-    void doubleClick(SDL_MouseButtonEvent click);
+    
     void markClickedLine(int y);
-    string transformLine(int i);
+    string transformLine(int i);    
     void updateTextures();
+    void printDebugStart();
+    void initWindow();
 
 public:
     DebugDisplay(Chip8* chip8);
-    void virtual draw();
-    void virtual initialize();
-    void virtual checkForDraw();
+    void draw();
+    void initialize();
+    void checkForDraw();
+    void scrollText(SDL_MouseWheelEvent wheel);
+    void doubleClick(SDL_MouseButtonEvent click);
 };

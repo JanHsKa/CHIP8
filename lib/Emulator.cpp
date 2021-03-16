@@ -8,10 +8,11 @@ filePath(file) {
 	debugType = debug;
 	keyboard = new Keypad();
 	cpu = new Chip8(keyboard);
-	display = new Display(cpu);
+	display = new GameDisplay(cpu);
 	soundController = new Soundcontroller();
 	debugDisplay = new DebugDisplay(cpu);
-
+	debugManager = new DebugManager(debugDisplay);
+	inputChecker = new InputChecker(debugManager, keyboard);
 
 	initialize();
 }
@@ -35,7 +36,7 @@ int Emulator::emulateProgram() {
 		emulationCycle();
 
 	} else {
-		cerr<<"Failed to load program file";
+		cerr<<"Failed to load program file"<<endl;
 	}
 
 	display->destroy();
@@ -48,10 +49,8 @@ void Emulator::emulationCycle() {
 	lastUpdate = SDL_GetTicks(); 
 
 	while(!stop) {
-		// if (keyboard->checkInput()) {
-		// 	stop = keyboard->getQuit();
-		// }
-
+		inputChecker->checkInput();
+		stop = inputChecker->getQuit();
 		cpu->processCommand();
 		debugDisplay->checkForDraw();
 
@@ -88,10 +87,8 @@ int Emulator::emulateDebug() {
 	lastUpdate = SDL_GetTicks(); 
 
 	while(!stop) {
-
-		if (keyboard->checkInput()) {
-			stop = keyboard->getQuit();
-		}
+		inputChecker->checkInput();
+		stop = inputChecker->getQuit();
 
 		cpu->processCommand();
 		checkForRefresh();
@@ -99,5 +96,6 @@ int Emulator::emulateDebug() {
 		}
 
 	display->destroy();
+	debugDisplay->destroy();
 	return 0;
 }

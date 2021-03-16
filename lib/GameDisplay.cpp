@@ -1,27 +1,27 @@
 #include <iostream>
-#include "Display.h"
+#include "GameDisplay.h"
 #include "Macros.h"
 #include "SDL2/SDL_ttf.h"
 #include <sstream>
 #include <iterator>
 
 
-Display::Display(Chip8 *chip8):
-    cpu(chip8) {
+GameDisplay::GameDisplay(Chip8 *chip8): Display(chip8) {
     windowWidth = SCALE * COLUMNS;
     windowHeight = SCALE * ROWS;
 
-	cpu->copyGraphicBuffer(pixelMap);
+	for (int i = 0; i < COLUMNS * ROWS; i++) {
+        pixelMap[i] = 0;
+    }
 }
 
-void Display::initialize() {
-
+void GameDisplay::initialize() {
     SDL_Init(true);
 	window = SDL_CreateWindow("CHIP 8",
-                                          SDL_WINDOWPOS_CENTERED,
-                                          SDL_WINDOWPOS_CENTERED,
-                                          windowWidth, windowHeight,
-                                          SDL_WINDOW_SHOWN);
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        windowWidth, windowHeight,
+        SDL_WINDOW_SHOWN);
 
     if(!window)
     {
@@ -44,7 +44,7 @@ void Display::initialize() {
             COLUMNS, ROWS); 
 }
 
-void Display::checkForDraw() {
+void GameDisplay::checkForDraw() {
 	if (cpu->getDrawFlag()) {
 		cpu->copyGraphicBuffer(pixelMap);
 		draw();			
@@ -53,7 +53,7 @@ void Display::checkForDraw() {
 }
  
 
-void Display::draw() {
+void GameDisplay::draw() {
     cout<<"Drawing"<<endl;
     int error = 0;
     error = SDL_UpdateTexture(texture, NULL, pixelMap, COLUMNS * sizeof(Uint32));
@@ -65,13 +65,3 @@ void Display::draw() {
 	SDL_RenderPresent(renderer);
 }
 
-void Display::clearScreen() {
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
-}
-
-void Display::destroy() {
-    SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	SDL_Quit();
-}

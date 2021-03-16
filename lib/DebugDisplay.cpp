@@ -17,24 +17,31 @@ DebugDisplay::DebugDisplay(Chip8* chip8) : Display(chip8),
 }
 
 void  DebugDisplay::initialize() {
+    printDebugStart();
     maxDebugLines = cpu->getProgramSize();
+    initWindow();
+    loadOpcode();
+    createTextures();
+}
+
+void DebugDisplay::initWindow() {
     if (TTF_Init() < 0) {
         cout<<"error: "<<TTF_GetError()<<endl;
     }
     
+    font = TTF_OpenFont("Font/arial.ttf", fontSize);
+
     window = SDL_CreateWindow("Debug",
-                                          SDL_WINDOWPOS_CENTERED,
-                                          SDL_WINDOWPOS_UNDEFINED,
-                                          windowWidth, windowHeight,
-                                          SDL_WINDOW_SHOWN);
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_UNDEFINED,
+        windowWidth, windowHeight,
+        SDL_WINDOW_SHOWN);
 
     if(!window)
     {
         cout << "Failed to create window\n";
     }
 
-
-    font = TTF_OpenFont("Font/arial.ttf", fontSize);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	if (renderer == nullptr)
 	{
@@ -42,9 +49,13 @@ void  DebugDisplay::initialize() {
 	}
 
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 200);
+}
 
-    loadOpcode();
-    createTextures();
+void DebugDisplay::printDebugStart() {
+    cout << "Starting Debug Mode" <<endl;
+	cout << "F6 : Step through program" <<endl;
+	cout << "F7 : Print out current memory" <<endl;
+	cout << "F8 : Run program normal" <<endl;
 }
 
 void  DebugDisplay::checkForDraw() {
@@ -73,10 +84,7 @@ void  DebugDisplay::checkForDraw() {
 
 void DebugDisplay::scrollText(SDL_MouseWheelEvent wheel) {
     int y = wheel.y;
-    cout<<dec<<y<<endl;
-    if (wheel.y < 0 ) {
-        cout <<wheel.y<<endl;
-    }
+    
     if (y > debugOffset) {
         debugOffset = 0;
     } else if ((debugOffset - y) > maxDebugLines) {

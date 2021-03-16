@@ -23,40 +23,9 @@ Keypad::Keypad() {
 }
 
 void Keypad::initialize() {
-    quit = false;
-
     for (int i = 0; i < KEYCOUNT; i++) {
             keypad[i] = 0;
         }
-}
-
-
-bool Keypad::checkInput() {
-    bool keypressed = false;
-
-    SDL_Event event;
-
-    while(SDL_PollEvent(&event) != 0)
-    {
-        switch(event.type)
-        {
-            case SDL_QUIT:
-                quit = true;
-                keypressed = true;
-                break;
-
-            case SDL_KEYDOWN:
-                changePressedKey(event, 1);
-                keypressed = true;
-                break;
-
-            case SDL_KEYUP:
-                changePressedKey(event, 0);
-                keypressed = true;
-                break;
-        }
-    }
-    return keypressed;
 }
 
 void Keypad::changePressedKey(SDL_Event event, int value) {
@@ -66,11 +35,7 @@ void Keypad::changePressedKey(SDL_Event event, int value) {
 	}
 }
 
-bool Keypad::isKeypressed(int i) {
-    if (i < 0 || i > 15) {
-        return false;
-    }
-    
+bool Keypad::isKeypressed(uint8_t i) {
     return keypad[i];
 }
 
@@ -92,8 +57,4 @@ int Keypad::getPressedKey() {
 	}
 
     return -1;
-}
-
-bool Keypad::getQuit() {
-    return quit;
 }

@@ -1,9 +1,14 @@
 
 include_directories(${CMAKE_SOURCE_DIR}/lib)
+#include_directories(${CMAKE_SOURCE_DIR}/lib/header)
+
 
 add_executable(CHIP8 main.cpp)
 
 target_link_libraries(CHIP8 sources)
+
+#target_link_libraries(CHIP8 header)
+
 
 find_package(SDL2 REQUIRED)
 

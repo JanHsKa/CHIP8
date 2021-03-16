@@ -2,10 +2,11 @@
 #include <iostream>
 #include "Chip8.h"
 #include "SDL2/SDL.h"
-#include "Display.h"
+#include "GameDisplay.h"
 #include "DebugDisplay.h"
-#include <map>
 #include "Soundcontroller.h"
+#include "InputChecker.h"
+#include <map>
 
 using namespace std;
 
@@ -13,10 +14,12 @@ using namespace std;
 class Emulator {
 private:
 	Chip8* cpu;
-	Display* display; 
-	Keypad* keyboard;
-	Soundcontroller* soundController;
+	GameDisplay* display; 
 	DebugDisplay* debugDisplay;
+	Keypad* keyboard;
+	InputChecker* inputChecker;
+	Soundcontroller* soundController;
+	DebugManager* debugManager;
 
 	const char* filePath;
 	uint8_t debugType;
