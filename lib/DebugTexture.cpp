@@ -1,9 +1,30 @@
 #include "DebugTexture.h"
 
 
-DebugTexture::DebugTexture(TTF_Font* font, SDL_Renderer* renderer, SDL_Color color,string text) {
+DebugTexture::DebugTexture(TTF_Font* font, SDL_Renderer* renderer, SDL_Color color,string text) :
+    debugRenderer(renderer){
     debugText = text;
-    SDL_Surface* newSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+    debugFont = font;
+    debugColor = color;
+    // SDL_Surface* newSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+
+    // rectangle.w = newSurface->w;
+    // rectangle.h = newSurface->h;
+    // rectangle.x = 0;
+    // rectangle.y = 0;
+
+    // height = newSurface->h;
+    // width = newSurface->w;
+
+    // debugTexture = SDL_CreateTextureFromSurface(debugRenderer,
+    //         newSurface);
+    // SDL_QueryTexture(debugTexture, NULL, NULL, &rectangle.w, &rectangle.h);
+    // SDL_FreeSurface(newSurface);
+    renderText();
+}
+
+void DebugTexture::renderText() {
+    SDL_Surface* newSurface = TTF_RenderText_Solid(debugFont, debugText.c_str(), debugColor);
 
     rectangle.w = newSurface->w;
     rectangle.h = newSurface->h;
@@ -13,7 +34,7 @@ DebugTexture::DebugTexture(TTF_Font* font, SDL_Renderer* renderer, SDL_Color col
     height = newSurface->h;
     width = newSurface->w;
 
-    debugTexture = SDL_CreateTextureFromSurface(renderer,
+    debugTexture = SDL_CreateTextureFromSurface(debugRenderer,
             newSurface);
     SDL_QueryTexture(debugTexture, NULL, NULL, &rectangle.w, &rectangle.h);
     SDL_FreeSurface(newSurface);
@@ -21,6 +42,10 @@ DebugTexture::DebugTexture(TTF_Font* font, SDL_Renderer* renderer, SDL_Color col
 
 SDL_Texture* DebugTexture::getTexture() {
     return debugTexture;
+}
+
+void DebugTexture::setText(string text) {
+    debugText = text;
 }
 
 string DebugTexture::getText() {

@@ -48,11 +48,13 @@ void Emulator::emulationCycle() {
 	lastUpdate = SDL_GetTicks(); 
 
 	while(!stop) {
-		if (keyboard->checkInput()) {
-			stop = keyboard->getQuit();
-		}
+		// if (keyboard->checkInput()) {
+		// 	stop = keyboard->getQuit();
+		// }
 
 		cpu->processCommand();
+		debugDisplay->checkForDraw();
+
 		checkForRefresh();	
 		SDL_Delay(1);
 	}
@@ -64,6 +66,7 @@ void Emulator::checkForRefresh() {
 			//soundController->playSound();
 		}
 		display->checkForDraw();
+		debugDisplay->draw();
 		lastUpdate = SDL_GetTicks();
 	}
 }

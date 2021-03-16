@@ -4,11 +4,23 @@
 
 using namespace std;
 
+struct DebugOpcode {
+    string opcode;
+    bool marked;
+    int line;
+};
+
+
 class DebugDisplay : Display {
 private:
     int fontSize;
     int debugOffset;
+    bool quitWindow;
+    int lastButtonPress;
+    bool redraw;
+    int maxDebugLines;
 
+    vector<DebugOpcode> programCode;
     vector<string> debugOutput;
     vector<DebugTexture*> opcodeTexture;
 
@@ -19,6 +31,11 @@ private:
     string opcodeToString(int opcode);
     void drawDebugLine(string output, int startY);
     void createTextures();
+    void scrollText(SDL_MouseWheelEvent wheel);
+    void doubleClick(SDL_MouseButtonEvent click);
+    void markClickedLine(int y);
+    string transformLine(int i);
+    void updateTextures();
 
 public:
     DebugDisplay(Chip8* chip8);
