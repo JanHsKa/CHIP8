@@ -25,23 +25,22 @@ void GameDisplay::initialize() {
 
     if(!window)
     {
-        cout << "Failed to create window\n";
+        cerr<<"Failed to create window"<<SDL_GetError()<<endl;
     }
-
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	if (renderer == nullptr)
 	{
-		SDL_Log("Could not create a renderer: %s", SDL_GetError());
+        cerr<<"Could not create a renderer:"<<SDL_GetError()<<endl;
 	}
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 	 
 	texture = SDL_CreateTexture(renderer,
-            SDL_PIXELFORMAT_ARGB8888,
-            SDL_TEXTUREACCESS_STREAMING,
-            COLUMNS, ROWS); 
+        SDL_PIXELFORMAT_ARGB8888,
+        SDL_TEXTUREACCESS_STREAMING,
+        COLUMNS, ROWS); 
 }
 
 void GameDisplay::checkForDraw() {
@@ -54,14 +53,8 @@ void GameDisplay::checkForDraw() {
  
 
 void GameDisplay::draw() {
-    cout<<"Drawing"<<endl;
-    int error = 0;
-    error = SDL_UpdateTexture(texture, NULL, pixelMap, COLUMNS * sizeof(Uint32));
-    if (error > 0) {
-        printf("SDL_Init failed: %s\n", SDL_GetError());
-    }
-    error = SDL_RenderCopy(renderer, texture, NULL, NULL);
-    cout<<"renderCopy: "<<error<<endl;
+    SDL_UpdateTexture(texture, NULL, pixelMap, COLUMNS * sizeof(Uint32));
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
 	SDL_RenderPresent(renderer);
 }
 

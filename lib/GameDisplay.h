@@ -14,9 +14,9 @@ private:
 
 	Uint32 pixelMap[ROWS * COLUMNS];
 
+    void draw();
 public:
     GameDisplay(Chip8 *chip8);
-    void draw();
     void initialize();
     void checkForDraw();
 };

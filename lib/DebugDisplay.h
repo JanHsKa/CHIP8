@@ -2,47 +2,39 @@
 #include <iostream>
 #include "GameDisplay.h"
 #include "Display.h"
-using namespace std;
+#include <map>
+#include <regex>
 
-struct DebugOpcode {
-    string opcode;
-    bool marked;
-    int line;
-};
+using namespace std;
 
 
 class DebugDisplay : public Display {
 private:
     int fontSize;
-    int debugOffset;
     bool quitWindow;
-    int lastButtonPress;
     bool redraw;
-    int maxDebugLines;
 
-    vector<DebugOpcode> programCode;
     vector<string> debugOutput;
     vector<DebugTexture*> opcodeTexture;
+
+    regex opcodeMap;
 
     TTF_Font * font;
     SDL_Color textColor;
 
-    void loadOpcode();
-    string opcodeToString(int opcode);
-    void drawDebugLine(string output, int startY);
+    void drawDebugLine();
     void createTextures();
-    
-    void markClickedLine(int y);
-    string transformLine(int i);    
-    void updateTextures();
+
+    void updateAllLines();
     void printDebugStart();
     void initWindow();
 
+    void draw();
 public:
     DebugDisplay(Chip8* chip8);
-    void draw();
+    int getClickedRow(int line);
+    void updateMarkedLine(string lineText,int row);
+    void updateOutput(vector<string> output);
     void initialize();
     void checkForDraw();
-    void scrollText(SDL_MouseWheelEvent wheel);
-    void doubleClick(SDL_MouseButtonEvent click);
 };

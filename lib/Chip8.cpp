@@ -499,7 +499,10 @@ void Chip8::copyGraphicBuffer(uint32_t* pixelMap) {
 }
 
 uint16_t Chip8::getOpcode(int pc) {
-	return memory[pc + PROGRAM_START] << 8 | memory[pc + 1 + PROGRAM_START];
+	if (pc + 1 < programSize) {
+		return memory[pc + PROGRAM_START] << 8 | memory[pc + 1 + PROGRAM_START];
+	}
+	return 0;
 }
 
 int Chip8::getProgramSize() {

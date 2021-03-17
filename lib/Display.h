@@ -23,7 +23,6 @@ public:
     Display(Chip8* chip8) : cpu(chip8){};
     virtual void initialize() = 0;
     virtual void checkForDraw() = 0;
-    virtual void draw() = 0;
 
     void clearScreen() {
         SDL_RenderClear(renderer);

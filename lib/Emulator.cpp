@@ -11,7 +11,7 @@ filePath(file) {
 	display = new GameDisplay(cpu);
 	soundController = new Soundcontroller();
 	debugDisplay = new DebugDisplay(cpu);
-	debugManager = new DebugManager(debugDisplay);
+	debugManager = new DebugManager(debugDisplay, cpu);
 	inputChecker = new InputChecker(debugManager, keyboard);
 
 	initialize();
@@ -27,8 +27,9 @@ void Emulator::initialize() {
 	loadedFile = false;
 	loadedFile = loadFile();
 	display->initialize(); 
+	debugManager->initialize();
 	debugDisplay->initialize();
-	debugDisplay->draw();
+	debugDisplay->checkForDraw();
 }
 
 int Emulator::emulateProgram() {
@@ -52,7 +53,6 @@ void Emulator::emulationCycle() {
 		inputChecker->checkInput();
 		stop = inputChecker->getQuit();
 		cpu->processCommand();
-		debugDisplay->checkForDraw();
 
 		checkForRefresh();	
 		SDL_Delay(1);
@@ -65,7 +65,7 @@ void Emulator::checkForRefresh() {
 			//soundController->playSound();
 		}
 		display->checkForDraw();
-		debugDisplay->draw();
+		debugDisplay->checkForDraw();
 		lastUpdate = SDL_GetTicks();
 	}
 }
