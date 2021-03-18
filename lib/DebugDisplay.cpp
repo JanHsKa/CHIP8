@@ -19,15 +19,8 @@ DebugDisplay::DebugDisplay(Chip8* chip8) : Display(chip8),
 
 void  DebugDisplay::initialize() {
     printDebugStart();
-	cout << "start window" <<endl;
-
     initWindow();
-    
-	cout << "start textures" <<endl;
-
     createTextures();
-	cout << "finished textures" <<endl;
-
 }
 
 void DebugDisplay::initWindow() {
@@ -97,11 +90,7 @@ void DebugDisplay::drawDebugLine() {
 void DebugDisplay::createTextures() {
     opcodeTexture.clear();
     for (int i = 0; i < DEBUG_LINES; i++) {
-	    cout << "loop number "<<dec<<i <<endl;
-        cout<<"debugoutput : "<<debugOutput.at(i)<<endl;
         DebugTexture *newTexture = new DebugTexture(font, renderer, textColor, debugOutput.at(i));
-	    cout << "adding  texture" <<endl;
-
         opcodeTexture.push_back(newTexture);
     }
 }

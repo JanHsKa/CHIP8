@@ -10,10 +10,7 @@ DebugTexture::DebugTexture(TTF_Font* font, SDL_Renderer* renderer, SDL_Color col
 }
 
 void DebugTexture::renderText() {
-    cout<<"render "<<debugText.c_str()<<endl;
     SDL_Surface* newSurface = TTF_RenderText_Solid(debugFont, debugText.c_str(), debugColor);
-    cout<<"render surface ende "<<endl;
-
     rectangle.w = newSurface->w;
     rectangle.h = newSurface->h;
     rectangle.x = 0;
@@ -26,8 +23,6 @@ void DebugTexture::renderText() {
             newSurface);
     SDL_QueryTexture(debugTexture, NULL, NULL, &rectangle.w, &rectangle.h);
     SDL_FreeSurface(newSurface);
-    cout<<"render ende"<<endl;
-
 }
 
 SDL_Texture* DebugTexture::getTexture() {

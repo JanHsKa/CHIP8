@@ -6,7 +6,6 @@ using namespace std;
 Emulator::Emulator(const char* file, const char* debugInput) : 
 	filePath(file),
 	debugParam(debugInput) {
-	//debugType = debug;
 	keyboard = new Keypad();
 	cpu = new Chip8(keyboard);
 	gameDisplay = new GameDisplay(cpu);
@@ -36,23 +35,16 @@ bool Emulator::loadFile()
 
 void Emulator::initialize() {
 	checkIfDebug();
-	cout<<"debugchecked   "<<debugMode<<endl;
 	loadedFile = loadFile();
-	cout << "start init" <<endl;
-	
+
+	if (loadedFile) {
 		gameDisplay->initialize(); 
-	cout << "start init" <<endl;
-
-	debugManager->initialize();
-	cout << "start init" <<endl;
-
-	debugDisplay->initialize();
-	cout << "finished init" <<endl;
-
-	if (debugMode) {
-    	debugDisplay->setWindowShown(true);
+		debugManager->initialize();
+		debugDisplay->initialize();
+		if (debugMode) {
+			debugDisplay->setWindowShown(true);
+		}
 	}
-	//debugDisplay->checkForDraw();
 }
 
 int Emulator::emulateProgram() {
