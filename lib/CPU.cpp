@@ -1,6 +1,6 @@
 ﻿
 #include <iostream>
-#include "Chip8.h"
+#include "CPU.h"
 #include <fstream>
 #include "Macros.h"
 #include <iomanip>
@@ -10,7 +10,7 @@
 using namespace std;
 
 
-Chip8::Chip8(Keypad* newKeyboard) :fontSet{ 
+CPU::CPU(Keypad* newKeyboard) :fontSet{ 
 	0xF0, 0x90, 0x90, 0x90, 0xF0, 
 	0x20, 0x60, 0x20, 0x20, 0x70, 
 	0xF0, 0x10, 0xF0, 0x80, 0xF0, 
@@ -32,7 +32,7 @@ Chip8::Chip8(Keypad* newKeyboard) :fontSet{
 	initialize();
 }
 
-void Chip8::initialize(){
+void CPU::initialize(){
 	programSize = 0;
 	programCounter = PROGRAM_START;  
 	opcode = 0;      	
@@ -58,7 +58,7 @@ void Chip8::initialize(){
 	soundTimer = 0;
 }
 
-bool  Chip8::load(const char *filePath) {
+bool  CPU::load(const char *filePath) {
 	FILE* file = fopen(filePath, "r");
 
 	if (file == NULL) {
@@ -96,12 +96,12 @@ bool  Chip8::load(const char *filePath) {
 	return true;
 }
 
-void Chip8::processCommand(){
+void CPU::processCommand(){
 	opcode = memory[programCounter] << 8 | memory[programCounter + 1];
 	decodeOPcode();	
 }
 
-bool Chip8::updateTimers(){
+bool CPU::updateTimers(){
 	if (delayTimer > 0)
 		delayTimer--;
 
@@ -114,7 +114,7 @@ bool Chip8::updateTimers(){
 }
 
 
-void Chip8::decodeOPcode(){
+void CPU::decodeOPcode(){
 	unsigned short vx = (opcode & 0x0F00) >> 8;
 	unsigned short nn = opcode & 0x00FF;
 	unsigned short vy = (opcode & 0x00F0) >> 4;
@@ -232,7 +232,7 @@ void Chip8::decodeOPcode(){
 	}
 }
 
-void Chip8::executeCaseF() {
+void CPU::executeCaseF() {
 	unsigned short vx = (opcode & 0x0F00) >> 8;
 	bool keyPressed;
 
@@ -315,7 +315,7 @@ void Chip8::executeCaseF() {
 	}
 }
 
-void Chip8::executeCase8() {
+void CPU::executeCase8() {
 	unsigned short x = (opcode & 0x0F00) >> 8;
 	unsigned short y = (opcode & 0x00F0) >> 4;
 
@@ -394,7 +394,7 @@ void Chip8::executeCase8() {
 	}
 }
 
-void Chip8::executeCase0() {
+void CPU::executeCase0() {
 	switch (opcode & 0x000F) {
 	case 0x0000:
 		clearDisplay();
@@ -413,7 +413,7 @@ void Chip8::executeCase0() {
 }
 
 
-void Chip8::drawSprite() {
+void CPU::drawSprite() {
 	unsigned short VX = variablesRegister[(opcode & 0x0F00) >> 8];
 	unsigned short VY = variablesRegister[(opcode & 0x00F0) >> 4];
 	unsigned short height = opcode & 0x000F;
@@ -423,30 +423,17 @@ void Chip8::drawSprite() {
 	unsigned short newY = 0;
 	unsigned short pixelPosition = 0;
 
-	if (VX == COLUMNS) {
-		cout<<"vx == 0"<<endl;
-	}
-
-	if (VY == ROWS) {
-		cout<<"vy == 0"<<endl;
-	}
 	variablesRegister[0xF] = 0;
 	for (int row = 0; row < height; row++)
 	{
 		newY = (VY + row) % ROWS;
 		sprite = memory[indexRegister + row];
+
 		for (int column = 0; column < width; column++)
 		{
 			newX = (VX + column) % COLUMNS;
 			if ((sprite & (0x80 >> column)) != 0)
 			{
-				if (VX + column >= COLUMNS) {
-					cout<<"x = -"<<endl;
-				}
-				if (VY + row >= ROWS) {
-					cout<<"y = -"<<endl;
-				}
-
 				if (graphicInterface[newX][newY] == 1)
 					variablesRegister[0xF] = 1;
 
@@ -458,7 +445,7 @@ void Chip8::drawSprite() {
 	programCounter += 2;
 }
 
-void Chip8::clearDisplay() {
+void CPU::clearDisplay() {
 	for (int i = 0; i < COLUMNS ; i++) {
 		for (int j = 0; j < ROWS ; j++) {
 			graphicInterface[i][j] = 0;
@@ -466,15 +453,15 @@ void Chip8::clearDisplay() {
 	}
 }
 
-bool Chip8::getDrawFlag() {
+bool CPU::getDrawFlag() {
 	return drawFlag;
 }
 
-void Chip8::setDrawFlag(bool flag) {
+void CPU::setDrawFlag(bool flag) {
 	drawFlag = flag;
 }
 
-void Chip8::copyGraphicBuffer(uint32_t* pixelMap) {
+void CPU::copyGraphicBuffer(uint32_t* pixelMap) {
 	uint8_t sprite;
 	for (int i = 0; i < COLUMNS; i++) {
 		for (int j = 0; j < ROWS; j++) {
@@ -484,35 +471,35 @@ void Chip8::copyGraphicBuffer(uint32_t* pixelMap) {
 	}
 }
 
-uint16_t Chip8::getOpcode(int pc) {
+uint16_t CPU::getOpcode(int pc) {
 	if (pc + 1 < programSize) {
 		return memory[pc + PROGRAM_START] << 8 | memory[pc + 1 + PROGRAM_START];
 	}
 	return 0;
 }
 
-uint16_t Chip8::getCurrentOpCode() {
+uint16_t CPU::getCurrentOpCode() {
 	return getOpcode(programCounter - PROGRAM_START);
 }
 
 
-int Chip8::getProgramSize() {
+int CPU::getProgramSize() {
 	return programSize;
 }
 
-int Chip8::getProgramCounter() {
+int CPU::getProgramCounter() {
 	return programCounter - PROGRAM_START;
 }
 
 
-void Chip8::debugOutput() {
+void CPU::debugOutput() {
 	cout<< "Current Memory: " << endl<<endl;
 	cout << "Opcode: "<< hex << opcode << endl <<endl;
 	cout << "Program Counter: " << dec << programCounter << endl <<endl;
 	cout << "Index Register: " << dec << indexRegister << endl <<endl;
 	cout << "Stack Pointer: " << dec << stackPointer << endl <<endl;
-	cout << "Delay Timer: " << hex << delayTimer << endl <<endl;
-	cout << "Sound Timer: " << hex << soundTimer << endl <<endl;
+	cout << "Delay Timer: " << dec << delayTimer << endl <<endl;
+	cout << "Sound Timer: " << dec << soundTimer << endl <<endl;
 	cout << "Variables: " << endl; 
 
 	for (int i = 0; i < VARIABLE_COUNT; i++) {

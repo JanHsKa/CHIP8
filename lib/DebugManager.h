@@ -21,7 +21,7 @@ struct DebugOpcode {
 class DebugManager {
 private:
     DebugDisplay* debugDisplay;
-    Chip8* cpu;
+    CPU* cpu;
     map<SDL_Keycode, int> keymap; 
     bool debugKeys[DEBUG_KEY_COUNT];
     vector<DebugOpcode> programCode;
@@ -31,6 +31,7 @@ private:
     int maxDebugLines;
     bool continueDebug;
     int currentLine;
+    bool active;
 
     void loadOpcode();
     void markClickedLine(int line);
@@ -46,7 +47,7 @@ private:
     void printStoppedAtLine();
 
 public:
-    DebugManager(DebugDisplay* display, Chip8* chip8);
+    DebugManager(DebugDisplay* display, CPU* chip8);
     void initialize();
     void setPressedDebugKey(SDL_Event event, int value);
     void scrollText(SDL_MouseWheelEvent wheel);

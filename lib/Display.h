@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "Chip8.h"
+#include "CPU.h"
 
 using namespace std;
 
@@ -11,7 +11,7 @@ private:
     int columns;
 
 protected:
-    Chip8 *cpu;
+    CPU *cpu;
 
     SDL_Texture *texture;
     SDL_Renderer *renderer;
@@ -20,7 +20,7 @@ protected:
     int windowHeight;
     int windowWidth;
 public:
-    Display(Chip8* chip8) : cpu(chip8){};
+    Display(CPU* chip8) : cpu(chip8){};
     virtual void initialize() = 0;
     virtual void checkForDraw() = 0;
     virtual void setWindowShown(bool show) {

@@ -4,7 +4,7 @@
 
 
 
-DebugDisplay::DebugDisplay(Chip8* chip8) : Display(chip8),
+DebugDisplay::DebugDisplay(CPU* chip8) : Display(chip8),
     textColor({0,0,0,0}) {
     fontSize = 30;
     windowHeight = fontSize * DEBUG_LINES;

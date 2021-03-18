@@ -8,14 +8,14 @@ private:
     const static int AMPLITUDE = 28000;
     const static int SAMPLE_RATE = 44100;
 
-    SDL_AudioSpec want;
-    SDL_AudioSpec have;
+    SDL_AudioSpec wantedSpec;
+    SDL_AudioSpec currentSpec;
 
-    SDL_AudioDeviceID m_device;
+    SDL_AudioDeviceID audioDevice;
 
 public:
-    static void audioCallback(void *user_data, Uint8 *raw_buffer, int bytes);
+    static void audioCallback(void *data, Uint8 *buffer, int bytes);
     Soundcontroller();
-    ~Soundcontroller();
     void playSound();
+    ~Soundcontroller();
 };

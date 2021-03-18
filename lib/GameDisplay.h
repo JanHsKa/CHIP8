@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "Chip8.h"
+#include "CPU.h"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
 #include "DebugTexture.h"
@@ -16,7 +16,7 @@ private:
 
     void draw();
 public:
-    GameDisplay(Chip8 *chip8);
+    GameDisplay(CPU *chip8);
     void initialize();
     void checkForDraw();
 };

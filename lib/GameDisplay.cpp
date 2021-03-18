@@ -6,7 +6,7 @@
 #include <iterator>
 
 
-GameDisplay::GameDisplay(Chip8 *chip8): Display(chip8) {
+GameDisplay::GameDisplay(CPU *chip8): Display(chip8) {
     windowWidth = SCALE * COLUMNS;
     windowHeight = SCALE * ROWS;
 

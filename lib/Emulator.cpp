@@ -7,12 +7,12 @@ Emulator::Emulator(const char* file, const char* debugInput) :
 	filePath(file),
 	debugParam(debugInput) {
 	keyboard = new Keypad();
-	cpu = new Chip8(keyboard);
+	cpu = new CPU(keyboard);
 	gameDisplay = new GameDisplay(cpu);
-	//soundController = new Soundcontroller();
 	debugDisplay = new DebugDisplay(cpu);
 	debugManager = new DebugManager(debugDisplay, cpu);
 	inputChecker = new InputChecker(debugManager, keyboard);
+	//soundController = new Soundcontroller();
 	lastUpdate = 0;
 	loadedFile = false;
 	debugMode = false;
@@ -56,6 +56,7 @@ int Emulator::emulateProgram() {
 	}
 
 	gameDisplay->destroy();
+	debugDisplay->destroy();
 
 	return 0;
 }
@@ -74,8 +75,6 @@ void Emulator::emulationCycle() {
 			updateTimer();
 		}
 
-		// cpu->processCommand();
-		// updateTimer();
 		refreshDisplay();	
 		SDL_Delay(1);
 	}

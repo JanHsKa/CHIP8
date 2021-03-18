@@ -29,7 +29,7 @@ private:
 
     void draw();
 public:
-    DebugDisplay(Chip8* chip8);
+    DebugDisplay(CPU* chip8);
     int getClickedRow(int line);
     void updateMarkedLine(string lineText,int row);
     void updateOutput(vector<string> output);

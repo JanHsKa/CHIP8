@@ -1,42 +1,43 @@
 #include "Soundcontroller.h"
+#include "Macros.h"
 
 Soundcontroller::Soundcontroller() {
 
-    if(SDL_Init(SDL_INIT_AUDIO) != 0) SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
+    if (SDL_Init(SDL_INIT_AUDIO) != 0) {
+        cerr<<"Failed to initialize: "<<endl;
+        cerr<<SDL_GetError()<<endl<<endl;
+    }
 
-    int sample_nr = 0;
+    int sampleNumber = 0;
 
-    want.freq = SAMPLE_RATE; // number of samples per second
-    want.format = AUDIO_S16SYS; // sample type (here: signed short i.e. 16 bit)
-    want.channels = 1; // only one channel
-    want.samples = 2048; // buffer-size
-    want.callback = audioCallback; // function SDL calls periodically to refill the buffer
-    want.userdata = &sample_nr; // counter, keeping track of current sample number
+    wantedSpec.freq = SAMPLE_RATE;
+    wantedSpec.format = AUDIO_S16SYS;
+    wantedSpec.channels = 1;
+    wantedSpec.samples = 2048;
+    wantedSpec.callback = audioCallback;
+    wantedSpec.userdata = &sampleNumber; 
 
-    m_device = SDL_OpenAudioDevice(NULL, 0, &want, &have, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
+    audioDevice = SDL_OpenAudioDevice(NULL, 0, &wantedSpec, &currentSpec, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
 }
 
 void Soundcontroller::audioCallback(void *user_data, Uint8 *raw_buffer, int bytes) {
     Sint16 *buffer = (Sint16*)raw_buffer;
-    int length = bytes / 2; // 2 bytes per sample for AUDIO_S16SYS
-    int &sample_nr(*(int*)user_data);
+    int length = bytes / 2;
+    int &sampleNumber(*(int*)user_data);
 
-    for(int i = 0; i < length; i++, sample_nr++)
-    {
-        double time = (double)sample_nr / (double)SAMPLE_RATE;
-        buffer[i] = (Sint16)(AMPLITUDE * sin(2.0f * M_PI * 441.0f * time)); // render 441 HZ sine wave
+    for(int i = 0; i < length; i++, sampleNumber++) {
+        double time = (double)sampleNumber / (double)SAMPLE_RATE;
+        buffer[i] = (Sint16)(AMPLITUDE * sin(2.0f * M_PI * 441.0f * time));
     }
 }
 
 void Soundcontroller::playSound() {
-    
-
-    SDL_PauseAudioDevice(m_device, 0);
-    SDL_Delay(16);
-    SDL_PauseAudioDevice(m_device, 1);
+    SDL_PauseAudioDevice(audioDevice, 0);
+    SDL_Delay(CLOCK_RATE);
+    SDL_PauseAudioDevice(audioDevice, 1);
 }
 
 Soundcontroller::~Soundcontroller()
 {
-    SDL_CloseAudioDevice(m_device);
+    SDL_CloseAudioDevice(audioDevice);
 }

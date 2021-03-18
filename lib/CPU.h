@@ -6,7 +6,7 @@
 
 
 
-class Chip8 {
+class CPU {
 private:
 	uint16_t opcode;
 	uint16_t indexRegister;
@@ -31,7 +31,7 @@ private:
 	void clearDisplay();
 
 public:
-	Chip8(Keypad* newKeyboard);
+	CPU(Keypad* newKeyboard);
 	void initialize();
 	void processCommand();
 	bool updateTimers();

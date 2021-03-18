@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "Chip8.h"
+#include "CPU.h"
 #include "SDL2/SDL.h"
 #include "GameDisplay.h"
 #include "DebugDisplay.h"
@@ -13,7 +13,7 @@ using namespace std;
 
 class Emulator {
 private:
-	Chip8* cpu;
+	CPU* cpu;
 	GameDisplay* gameDisplay; 
 	DebugDisplay* debugDisplay;
 	Keypad* keyboard;

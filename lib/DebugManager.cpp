@@ -2,7 +2,7 @@
 #include <iomanip>
 
 
-DebugManager::DebugManager(DebugDisplay* display, Chip8* chip8) :
+DebugManager::DebugManager(DebugDisplay* display, CPU* chip8) :
     debugDisplay(display),
     cpu(chip8) {
     keymap.insert({SDLK_F6, Step_over});
@@ -14,6 +14,7 @@ DebugManager::DebugManager(DebugDisplay* display, Chip8* chip8) :
     maxDebugLines = 0;
     continueDebug = true;
     currentLine = 0;
+    active = false;
 
     for (int i = 0; i < DEBUG_KEY_COUNT; i++) {
         debugKeys[i] = false;
@@ -177,4 +178,7 @@ void DebugManager::setCurrentLine() {
 void DebugManager::printStoppedAtLine() {
     cout<<"Stopped at Breakpoint in Line " << dec << currentLine <<endl;
     cout<<"Current opcode " << opcodeToString(cpu->getCurrentOpCode())<<endl<<endl;
+    cout<<"If you want to continue the program press F8 " <<endl;
+    cout<<"Or to step through the program press F6"<<endl;
+    cout<<"For debug output press F7"<<endl<<endl;
 }
