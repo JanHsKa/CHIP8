@@ -10,7 +10,7 @@
 using namespace std;
 
 
-Chip8::Chip8(Keypad* newKeyboard) :chip8_fontset{ 
+Chip8::Chip8(Keypad* newKeyboard) :fontSet{ 
 	0xF0, 0x90, 0x90, 0x90, 0xF0, 
 	0x20, 0x60, 0x20, 0x20, 0x70, 
 	0xF0, 0x10, 0xF0, 0x80, 0xF0, 
@@ -51,9 +51,8 @@ void Chip8::initialize(){
 		memory[i] = 0;
 	}
 	
-	// Load fontset
 	for (int i = 0; i < 80; ++i)
-		memory[i] = chip8_fontset[i];
+		memory[i] = fontSet[i];
 
 	delayTimer = 0;
 	soundTimer = 0;
@@ -85,7 +84,7 @@ bool  Chip8::load(const char *filePath) {
 		return false;
 	} 
 	else {
-		programSize = readSize / 2;
+		programSize = readSize;
 		for (int i = 0; i < fileSize; i++) {
 			memory[i + PROGRAM_START] = (char)fileBuffer[i];
 		}
@@ -98,17 +97,7 @@ bool  Chip8::load(const char *filePath) {
 }
 
 void Chip8::processCommand(){
-
 	opcode = memory[programCounter] << 8 | memory[programCounter + 1];
-	cout<<"normal    ";
-	cout  << std::hex<< opcode<<endl;
-	cout<<"converted    ";
-	cout  << std::hex<< (opcode & 0xF000) <<endl;
-	cout<<"converted  reverse   ";
-	cout  << std::hex<< (opcode & 0x00FF) <<endl;
-	cout << "program counter  " << programCounter <<endl;
-	cout<<endl;
-
 	decodeOPcode();	
 }
 
@@ -126,15 +115,10 @@ bool Chip8::updateTimers(){
 
 
 void Chip8::decodeOPcode(){
-	cout<<"starting decode"<<endl;
 	unsigned short vx = (opcode & 0x0F00) >> 8;
 	unsigned short nn = opcode & 0x00FF;
 	unsigned short vy = (opcode & 0x00F0) >> 4;
 	unsigned short index;
-
-	if (programCounter % 2 != 0) {
-		cout<<"Program Counter: "<<programCounter<<endl;
-	}
 
 	switch (opcode & 0xF000){
 	case 0x0000:
@@ -369,11 +353,11 @@ void Chip8::executeCase8() {
 		break;
 
 	case 0x0005:
-		if (variablesRegister[x] < variablesRegister[y]) {
-			variablesRegister[CARRY_FLAG_INDEX] = 0;
+		if (variablesRegister[x] > variablesRegister[y]) {
+			variablesRegister[CARRY_FLAG_INDEX] = 1;
 		}
 		else {
-			variablesRegister[CARRY_FLAG_INDEX] = 1;
+			variablesRegister[CARRY_FLAG_INDEX] = 0;
 		}
 		variablesRegister[x] -= variablesRegister[y];
 
@@ -387,11 +371,11 @@ void Chip8::executeCase8() {
 		break;
 
 	case 0x0007:
-		if (variablesRegister[y] < variablesRegister[x]) {
-			variablesRegister[CARRY_FLAG_INDEX] = 0;
+		if (variablesRegister[y] > variablesRegister[x]) {
+			variablesRegister[CARRY_FLAG_INDEX] = 1;
 		}
 		else {
-			variablesRegister[CARRY_FLAG_INDEX] = 1;
+			variablesRegister[CARRY_FLAG_INDEX] = 0;
 		}
 		variablesRegister[x] = variablesRegister[y] - variablesRegister[x];
 
@@ -400,7 +384,7 @@ void Chip8::executeCase8() {
 
 	case 0x000E:
 		variablesRegister[CARRY_FLAG_INDEX] = variablesRegister[x] & 0b10000000;
-		variablesRegister[x] = variablesRegister[x] << 1;
+		variablesRegister[x] <<= 1;
 		programCounter += 2;
 		break;
 

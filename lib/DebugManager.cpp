@@ -10,7 +10,7 @@ DebugManager::DebugManager(DebugDisplay* display, Chip8* chip8) :
 	keymap.insert({SDLK_F7, Debug_Output});
 
     lastButtonPress = 0;
-    offset = 150;
+    offset = 0;
     maxDebugLines = 0;
     continueDebug = true;
     currentLine = 0;

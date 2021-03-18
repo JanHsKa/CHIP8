@@ -18,7 +18,7 @@ private:
 	uint8_t graphicInterface[COLUMNS][ROWS];
 	uint8_t delayTimer;
 	uint8_t soundTimer;
-	uint8_t chip8_fontset[80];
+	uint8_t fontSet[80];
 	Keypad* keyboard;
 	bool drawFlag;
 	int programSize;
