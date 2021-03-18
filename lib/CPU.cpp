@@ -424,19 +424,16 @@ void CPU::drawSprite() {
 	unsigned short pixelPosition = 0;
 
 	variablesRegister[0xF] = 0;
-	for (int row = 0; row < height; row++)
-	{
+	for (int row = 0; row < height; row++) {
 		newY = (VY + row) % ROWS;
 		sprite = memory[indexRegister + row];
 
-		for (int column = 0; column < width; column++)
-		{
+		for (int column = 0; column < width; column++) {
 			newX = (VX + column) % COLUMNS;
-			if ((sprite & (0x80 >> column)) != 0)
-			{
-				if (graphicInterface[newX][newY] == 1)
+			if ((sprite & (0x80 >> column)) != 0) {
+				if (graphicInterface[newX][newY] == 1) {
 					variablesRegister[0xF] = 1;
-
+				}
 				graphicInterface[newX][newY] ^= 1;
 			}
 		}
