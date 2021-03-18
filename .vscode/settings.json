@@ -51,6 +51,16 @@
         "strstream": "cpp",
         "bitset": "cpp",
         "list": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "regex": "cpp",
+        "cerrno": "cpp",
+        "cfloat": "cpp",
+        "cstring": "cpp",
+        "ctime": "cpp",
+        "iomanip": "cpp",
+        "ios": "cpp",
+        "locale": "cpp",
+        "queue": "cpp",
+        "stack": "cpp"
     }
 }

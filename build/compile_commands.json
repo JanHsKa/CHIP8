@@ -1,0 +1,52 @@
+[
+{
+  "directory": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/build/lib",
+  "command": "/usr/bin/c++ -Dsources_EXPORTS  -g -fPIC -o CMakeFiles/sources.dir/CPU.cpp.o -c /home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/CPU.cpp",
+  "file": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/CPU.cpp"
+},
+{
+  "directory": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/build/lib",
+  "command": "/usr/bin/c++ -Dsources_EXPORTS  -g -fPIC -o CMakeFiles/sources.dir/Emulator.cpp.o -c /home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/Emulator.cpp",
+  "file": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/Emulator.cpp"
+},
+{
+  "directory": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/build/lib",
+  "command": "/usr/bin/c++ -Dsources_EXPORTS  -g -fPIC -o CMakeFiles/sources.dir/GameDisplay.cpp.o -c /home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/GameDisplay.cpp",
+  "file": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/GameDisplay.cpp"
+},
+{
+  "directory": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/build/lib",
+  "command": "/usr/bin/c++ -Dsources_EXPORTS  -g -fPIC -o CMakeFiles/sources.dir/Keypad.cpp.o -c /home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/Keypad.cpp",
+  "file": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/Keypad.cpp"
+},
+{
+  "directory": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/build/lib",
+  "command": "/usr/bin/c++ -Dsources_EXPORTS  -g -fPIC -o CMakeFiles/sources.dir/Soundcontroller.cpp.o -c /home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/Soundcontroller.cpp",
+  "file": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/Soundcontroller.cpp"
+},
+{
+  "directory": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/build/lib",
+  "command": "/usr/bin/c++ -Dsources_EXPORTS  -g -fPIC -o CMakeFiles/sources.dir/DebugTexture.cpp.o -c /home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/DebugTexture.cpp",
+  "file": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/DebugTexture.cpp"
+},
+{
+  "directory": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/build/lib",
+  "command": "/usr/bin/c++ -Dsources_EXPORTS  -g -fPIC -o CMakeFiles/sources.dir/DebugDisplay.cpp.o -c /home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/DebugDisplay.cpp",
+  "file": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/DebugDisplay.cpp"
+},
+{
+  "directory": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/build/lib",
+  "command": "/usr/bin/c++ -Dsources_EXPORTS  -g -fPIC -o CMakeFiles/sources.dir/InputChecker.cpp.o -c /home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/InputChecker.cpp",
+  "file": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/InputChecker.cpp"
+},
+{
+  "directory": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/build/lib",
+  "command": "/usr/bin/c++ -Dsources_EXPORTS  -g -fPIC -o CMakeFiles/sources.dir/DebugManager.cpp.o -c /home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/DebugManager.cpp",
+  "file": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib/DebugManager.cpp"
+},
+{
+  "directory": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/build/main",
+  "command": "/usr/bin/c++  -I/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/lib -I/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/main/CHIP8 -I/usr/include/SDL2 -g -o CMakeFiles/CHIP8.dir/main.cpp.o -c /home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/main/main.cpp",
+  "file": "/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/main/main.cpp"
+}
+]
