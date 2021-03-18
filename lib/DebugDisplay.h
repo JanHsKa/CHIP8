@@ -17,8 +17,6 @@ private:
     vector<string> debugOutput;
     vector<DebugTexture*> opcodeTexture;
 
-    regex opcodeMap;
-
     TTF_Font * font;
     SDL_Color textColor;
 

@@ -3,6 +3,8 @@
 #include "Chip8.h"
 #include <fstream>
 #include "Macros.h"
+#include <iomanip>
+
 
 
 using namespace std;
@@ -505,27 +507,41 @@ uint16_t Chip8::getOpcode(int pc) {
 	return 0;
 }
 
+uint16_t Chip8::getCurrentOpCode() {
+	return getOpcode(programCounter - PROGRAM_START);
+}
+
+
 int Chip8::getProgramSize() {
 	return programSize;
 }
 
+int Chip8::getProgramCounter() {
+	return programCounter - PROGRAM_START;
+}
+
+
 void Chip8::debugOutput() {
-	cout<< "Current Memory: " << endl;
-	cout << "Opcode: "<< hex << opcode << endl;
-	cout << "Program Counter: " << dec << programCounter << endl;
-	cout << "Index Register: " << dec << indexRegister << endl;
-	cout << "Stack Pointer: " << dec << stackPointer << endl;
-	cout << "Delay Timer: " << dec << delayTimer << endl;
-	cout << "Sound Timer: " << dec << soundTimer << endl;
-	cout << "Variables: " << dec << programCounter << endl;
+	cout<< "Current Memory: " << endl<<endl;
+	cout << "Opcode: "<< hex << opcode << endl <<endl;
+	cout << "Program Counter: " << dec << programCounter << endl <<endl;
+	cout << "Index Register: " << dec << indexRegister << endl <<endl;
+	cout << "Stack Pointer: " << dec << stackPointer << endl <<endl;
+	cout << "Delay Timer: " << hex << delayTimer << endl <<endl;
+	cout << "Sound Timer: " << hex << soundTimer << endl <<endl;
+	cout << "Variables: " << endl; 
 
 	for (int i = 0; i < VARIABLE_COUNT; i++) {
-		cout << "[" << i << "] : " <<  variablesRegister[i] << endl;
+		cout << hex<< "[" << i << "] : " <<"0x" <<hex<<setw(5)<<setfill('0')<<  variablesRegister[i] << endl;
 	}
 
+	cout<<endl;
 	cout << "Stack: " << endl;
 	
-	for (int i = STACKSIZE - 1; i >= 0; i--) {
-		cout << "[" << i << "] : " << hex <<  stack[i] << dec << endl;
+	for (int i = stackPointer; i >= 0; i--) {
+		cout << "[" << i << "] : " << hex <<  stack[i] << endl;
 	}
+
+	cout<<endl;
 }
+

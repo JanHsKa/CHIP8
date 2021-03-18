@@ -50,11 +50,12 @@ void GameDisplay::checkForDraw() {
 		cpu->setDrawFlag(false);
 	}
 }
- 
 
 void GameDisplay::draw() {
     SDL_UpdateTexture(texture, NULL, pixelMap, COLUMNS * sizeof(Uint32));
     SDL_RenderCopy(renderer, texture, NULL, NULL);
 	SDL_RenderPresent(renderer);
 }
+
+
 

@@ -10,4 +10,5 @@
 #define PROGRAM_START 0x200
 #define DEBUG_LINES 20
 #define DEBUG_KEY_COUNT 3
+#define CLOCK_RATE 1
 

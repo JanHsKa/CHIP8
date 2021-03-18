@@ -12,13 +12,22 @@ DebugDisplay::DebugDisplay(Chip8* chip8) : Display(chip8),
     quitWindow = false;
     redraw = true;
 
-    opcodeMap = "asdf";
+    for (int i = 0; i <DEBUG_LINES; i++) {
+        debugOutput.push_back("");
+    }
 }
 
 void  DebugDisplay::initialize() {
     printDebugStart();
+	cout << "start window" <<endl;
+
     initWindow();
+    
+	cout << "start textures" <<endl;
+
     createTextures();
+	cout << "finished textures" <<endl;
+
 }
 
 void DebugDisplay::initWindow() {
@@ -32,7 +41,7 @@ void DebugDisplay::initWindow() {
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_UNDEFINED,
         windowWidth, windowHeight,
-        SDL_WINDOW_SHOWN);
+        SDL_WINDOW_HIDDEN);
 
     if(!window)
     {
@@ -68,7 +77,6 @@ void DebugDisplay::updateMarkedLine(string lineText,int row) {
 }
 
 void DebugDisplay::drawDebugLine() {
-    int success = 0;
     SDL_Rect startPos;
     startPos.x = 0;
     startPos.y = 0;
@@ -80,18 +88,20 @@ void DebugDisplay::drawDebugLine() {
         startPos.w = opcodeTexture.at(i)->getWidth();
         startPos.h = opcodeTexture.at(i)->getHeight();
         startPos.y = i * fontSize;
-        success = SDL_RenderCopy(renderer, opcodeTexture.at(i)->getTexture(), NULL, &startPos);
-
-        cout<<"success: "<<success<<SDL_GetError()<<endl;
+        SDL_RenderCopy(renderer, opcodeTexture.at(i)->getTexture(), NULL, &startPos);
     }
 
-    cout<<"render success: "<<success<<endl;
     SDL_RenderPresent(renderer);
 }
 
 void DebugDisplay::createTextures() {
+    opcodeTexture.clear();
     for (int i = 0; i < DEBUG_LINES; i++) {
+	    cout << "loop number "<<dec<<i <<endl;
+        cout<<"debugoutput : "<<debugOutput.at(i)<<endl;
         DebugTexture *newTexture = new DebugTexture(font, renderer, textColor, debugOutput.at(i));
+	    cout << "adding  texture" <<endl;
+
         opcodeTexture.push_back(newTexture);
     }
 }

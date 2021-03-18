@@ -23,6 +23,11 @@ void InputChecker::checkInput() {
         case SDL_QUIT:
             quit = true;
             break;
+        case SDL_WINDOWEVENT:
+            if (event.window.event == SDL_WINDOWEVENT_CLOSE) {
+                quit = true;
+            }
+            break;
 
         case SDL_KEYDOWN:
             gameKeypad->changePressedKey(event, 1);

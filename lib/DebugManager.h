@@ -3,7 +3,6 @@
 #include <iostream>
 #include <map>
 #include "DebugDisplay.h"
-#include <vector>
 
 using namespace std;
 
@@ -30,13 +29,21 @@ private:
     int offset;
     int lastButtonPress;
     int maxDebugLines;
+    bool continueDebug;
+    int currentLine;
 
     void loadOpcode();
-    string opcodeToString(int opcode);
     void markClickedLine(int line);
-    string transformLine(int line);   
     void updateWindowLines();
     void createDebugOutput();
+    
+    string opcodeToString(int opcode);
+    string transformLine(int line);   
+
+    void setCurrentLine();
+    bool isAtBreakPoint();
+    void jumpToCurrentLine();
+    void printStoppedAtLine();
 
 public:
     DebugManager(DebugDisplay* display, Chip8* chip8);

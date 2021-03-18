@@ -14,26 +14,35 @@ using namespace std;
 class Emulator {
 private:
 	Chip8* cpu;
-	GameDisplay* display; 
+	GameDisplay* gameDisplay; 
 	DebugDisplay* debugDisplay;
 	Keypad* keyboard;
 	InputChecker* inputChecker;
-	Soundcontroller* soundController;
+	//Soundcontroller* soundController;
 	DebugManager* debugManager;
 
 	const char* filePath;
-	uint8_t debugType;
+	const char* debugParam;
+
+	bool debugMode;
 
 	unsigned int lastUpdate;
 	bool loadedFile;
 
 	bool loadFile();
 	void initialize();
+	void checkIfDebug();
+
 	void checkForDraw();
 	void checkForRefresh();
+	void refreshDisplay();
+	void updateTimer();
+	bool timeToUpdate();
+
+	void close();
 
 public:
-	Emulator(const char* , uint8_t);
+	Emulator(const char* , const char*);
 	int emulateProgram();
 	int emulateDebug();
 	void emulationCycle();

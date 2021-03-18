@@ -36,13 +36,17 @@ public:
 	void processCommand();
 	bool updateTimers();
 	bool load(const char *filePath);
-	void debugOutput();
 
 	void copyGraphicBuffer(uint32_t*);
 
 	uint16_t getOpcode(int pc); 
+	uint16_t getCurrentOpCode();
+	int getProgramCounter();
 	int getProgramSize();
+
 	bool getDrawFlag();
 	void setDrawFlag(bool);
 
+	void debugOutput();
+	void printGraficInterface();	
 };

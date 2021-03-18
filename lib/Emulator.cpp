@@ -3,18 +3,30 @@
 
 using namespace std;
 
-Emulator::Emulator(const char* file, uint8_t debug) : 
-filePath(file) {
-	debugType = debug;
+Emulator::Emulator(const char* file, const char* debugInput) : 
+	filePath(file),
+	debugParam(debugInput) {
+	//debugType = debug;
 	keyboard = new Keypad();
 	cpu = new Chip8(keyboard);
-	display = new GameDisplay(cpu);
-	soundController = new Soundcontroller();
+	gameDisplay = new GameDisplay(cpu);
+	//soundController = new Soundcontroller();
 	debugDisplay = new DebugDisplay(cpu);
 	debugManager = new DebugManager(debugDisplay, cpu);
 	inputChecker = new InputChecker(debugManager, keyboard);
-
+	lastUpdate = 0;
+	loadedFile = false;
+	debugMode = false;
 	initialize();
+}
+
+void Emulator::checkIfDebug() {
+	if (debugParam != NULL) {
+		string convert = debugParam;
+		if (convert == "debug") {
+			debugMode = true;
+		}
+	}
 }
 
 bool Emulator::loadFile()
@@ -23,13 +35,24 @@ bool Emulator::loadFile()
 }
 
 void Emulator::initialize() {
-	lastUpdate = 0;
-	loadedFile = false;
+	checkIfDebug();
+	cout<<"debugchecked   "<<debugMode<<endl;
 	loadedFile = loadFile();
-	display->initialize(); 
+	cout << "start init" <<endl;
+	
+		gameDisplay->initialize(); 
+	cout << "start init" <<endl;
+
 	debugManager->initialize();
+	cout << "start init" <<endl;
+
 	debugDisplay->initialize();
-	debugDisplay->checkForDraw();
+	cout << "finished init" <<endl;
+
+	if (debugMode) {
+    	debugDisplay->setWindowShown(true);
+	}
+	//debugDisplay->checkForDraw();
 }
 
 int Emulator::emulateProgram() {
@@ -40,62 +63,64 @@ int Emulator::emulateProgram() {
 		cerr<<"Failed to load program file"<<endl;
 	}
 
-	display->destroy();
+	gameDisplay->destroy();
 
 	return 0;
 }
 
 void Emulator::emulationCycle() {
+	cout << "start programm" <<endl;
+
 	bool stop = false;
 	lastUpdate = SDL_GetTicks(); 
 
 	while(!stop) {
 		inputChecker->checkInput();
 		stop = inputChecker->getQuit();
-		cpu->processCommand();
+		if (!debugMode || debugManager->continueProgram()) {
+			cpu->processCommand();
+			updateTimer();
+		}
 
-		checkForRefresh();	
+		// cpu->processCommand();
+		// updateTimer();
+		refreshDisplay();	
 		SDL_Delay(1);
 	}
+
+	close();
 }
 
-void Emulator::checkForRefresh() {
-	if (lastUpdate + REFRESHRATE < SDL_GetTicks()) {
-		if(cpu->updateTimers()) {
-			//soundController->playSound();
+void Emulator::refreshDisplay() {
+	if (timeToUpdate()) {
+		gameDisplay->checkForDraw();
+		if (debugMode) {
+			debugDisplay->checkForDraw();
 		}
-		display->checkForDraw();
-		debugDisplay->checkForDraw();
 		lastUpdate = SDL_GetTicks();
 	}
 }
 
+void Emulator::updateTimer() {
+	if (timeToUpdate()) {
+		cpu->updateTimers();
+	}
+}
 
+bool Emulator::timeToUpdate() {
+	return lastUpdate + REFRESHRATE < SDL_GetTicks();
+}
 
 int Emulator::emulateDebug() {
 	cout << "Starting Debug Mode" <<endl;
 	cout << "F6 : Step through program" <<endl;
 	cout << "F7 : Print out current memory" <<endl;
 	cout << "F8 : Run program normal" <<endl;
-	
 
-	display->initialize();
-
-	loadFile();
-
-	bool stop = false; 
-	lastUpdate = SDL_GetTicks(); 
-
-	while(!stop) {
-		inputChecker->checkInput();
-		stop = inputChecker->getQuit();
-
-		cpu->processCommand();
-		checkForRefresh();
-		SDL_Delay(3);
-		}
-
-	display->destroy();
-	debugDisplay->destroy();
 	return 0;
+}
+
+void Emulator::close() {
+	debugDisplay->destroy();
+	gameDisplay->destroy();
 }
