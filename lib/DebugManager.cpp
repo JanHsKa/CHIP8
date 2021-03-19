@@ -21,6 +21,11 @@ DebugManager::DebugManager(DebugDisplay* display, CPU* chip8) :
     }
 }
 
+void DebugManager::setActive(bool debug) {
+    active = debug;
+}
+
+
 void DebugManager::initialize() {
     loadOpcode();
     createDebugOutput();
@@ -29,7 +34,7 @@ void DebugManager::initialize() {
 
 void DebugManager::setPressedDebugKey(SDL_Event event, int value) {
     SDL_Keycode key = event.key.keysym.sym;
-	if (keymap.find(key) != keymap.end()) {
+	if (keymap.find(key) != keymap.end() && active) {
         if (keymap.at(key) == Continue) {
             debugKeys[Continue] = 1;
         } else {
@@ -63,7 +68,7 @@ void DebugManager::loadOpcode() {
 
 void DebugManager::doubleClick(SDL_MouseButtonEvent click) {
     int ticks = SDL_GetTicks();
-    if (click.button = SDL_BUTTON_LEFT) {
+    if (click.button = SDL_BUTTON_LEFT && active)  {
         if (SDL_GetTicks() - lastButtonPress < 2000) {
             markClickedLine(click.y);
             lastButtonPress = 0;
@@ -84,7 +89,8 @@ void DebugManager::markClickedLine(int line) {
     debugDisplay->updateMarkedLine(transformLine(row + offset), row);
 }
 
-void DebugManager::scrollText(SDL_MouseWheelEvent wheel) {
+
+void DebugManager::scroll(SDL_MouseWheelEvent wheel) {
     int scrollRange = wheel.y;
     if (scrollRange > offset) {
         offset = 0;
@@ -95,6 +101,12 @@ void DebugManager::scrollText(SDL_MouseWheelEvent wheel) {
     }
     
     updateWindowLines();
+}
+
+void DebugManager::scrollText(SDL_MouseWheelEvent wheel) {
+    if (active) {
+        scroll(wheel);
+    }
 }
 
 void DebugManager::updateWindowLines() {

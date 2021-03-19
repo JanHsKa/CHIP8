@@ -45,6 +45,7 @@ private:
     bool isAtBreakPoint();
     void jumpToCurrentLine();
     void printStoppedAtLine();
+    void scroll(SDL_MouseWheelEvent wheel);
 
 public:
     DebugManager(DebugDisplay* display, CPU* chip8);
@@ -55,4 +56,6 @@ public:
 
     bool isDebugKeyPressed(DebugKey key);
     bool continueProgram();
+
+    void setActive(bool debug);
 };

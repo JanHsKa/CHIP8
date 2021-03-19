@@ -39,11 +39,16 @@ void Emulator::initialize() {
 
 	if (loadedFile) {
 		gameDisplay->initialize(); 
+		initDebug();
+	}
+}
+
+void Emulator::initDebug() {
+	if (debugMode) {
+		debugManager->setActive(debugMode);
 		debugManager->initialize();
 		debugDisplay->initialize();
-		if (debugMode) {
-			debugDisplay->setWindowShown(true);
-		}
+		debugDisplay->setWindowShown(true);
 	}
 }
 
@@ -76,7 +81,7 @@ void Emulator::emulationCycle() {
 		}
 
 		refreshDisplay();	
-		SDL_Delay(1);
+		SDL_Delay(CLOCK_RATE);
 	}
 
 	close();

@@ -31,6 +31,7 @@ private:
 
 	bool loadFile();
 	void initialize();
+	void initDebug();
 	void checkIfDebug();
 
 	void checkForDraw();
