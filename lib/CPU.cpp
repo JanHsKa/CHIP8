@@ -490,21 +490,21 @@ int CPU::getProgramCounter() {
 
 
 void CPU::debugOutput() {
-	cout<< "Current Memory: " << endl<<endl;
+	cout<< "Current Memory in decimal: " << endl<<endl;
 	cout << "Opcode: "<< hex << opcode << endl <<endl;
 	cout << "Program Counter: " << dec << programCounter << endl <<endl;
 	cout << "Index Register: " << dec << indexRegister << endl <<endl;
 	cout << "Stack Pointer: " << dec << stackPointer << endl <<endl;
-	cout << "Delay Timer: " << dec << delayTimer << endl <<endl;
-	cout << "Sound Timer: " << dec << soundTimer << endl <<endl;
-	cout << "Variables: " << endl; 
+	cout << "Delay Timer: " << dec << unsigned(delayTimer) << endl <<endl;
+	cout << "Sound Timer: " << dec << unsigned(soundTimer) << endl <<endl;
+	cout << "Variables in Hex: " << endl; 
 
 	for (int i = 0; i < VARIABLE_COUNT; i++) {
-		cout << hex<< "[" << i << "] : " <<"0x" <<hex<<setw(5)<<setfill('0')<<  variablesRegister[i] << endl;
+		cout << hex<< "[" << i << "] : "<<  unsigned(variablesRegister[i]) << endl;
 	}
 
 	cout<<endl;
-	cout << "Stack: " << endl;
+	cout << "Stack in Hex: " << endl;
 	
 	for (int i = stackPointer; i >= 0; i--) {
 		cout << "[" << i << "] : " << hex <<  stack[i] << endl;
