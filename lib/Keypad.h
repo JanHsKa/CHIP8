@@ -19,4 +19,5 @@ public:
     bool isKeypressed(uint8_t i);
     bool isAnyKeypressed();
     int getPressedKey();
+    void resetKey(uint8_t i);
 };

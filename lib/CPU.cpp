@@ -27,7 +27,7 @@ CPU::CPU(Keypad* newKeyboard) :fontSet{
 	0xE0, 0x90, 0x90, 0x90, 0xE0, 
 	0xF0, 0x80, 0xF0, 0x80, 0xF0, 
 	0xF0, 0x80, 0xF0, 0x80, 0x80 },
-	keyboard(newKeyboard)
+	keypad(newKeyboard)
 {
 	initialize();
 }
@@ -205,7 +205,8 @@ void CPU::decodeOPcode(){
 	case 0xE000:
 		switch (opcode & 0x00FF){
 		case 0x009E:
-			if (keyboard->isKeypressed(variablesRegister[vx])) {
+			if (keypad->isKeypressed(variablesRegister[vx])) {
+				keypad->resetKey(variablesRegister[vx]);
 				programCounter += 2;
 			}
 
@@ -213,7 +214,7 @@ void CPU::decodeOPcode(){
 			break;
 
 		case 0x00A1:
-			if (!keyboard->isKeypressed(variablesRegister[vx])) {
+			if (!keypad->isKeypressed(variablesRegister[vx])) {
 				programCounter += 2;
 			}
 
@@ -244,9 +245,10 @@ void CPU::executeCaseF() {
 		
 	case 0x000A:
 		keyPressed = false;
-		if (keyboard->isAnyKeypressed()) {
+		if (keypad->isAnyKeypressed()) {
 			keyPressed = true;
-			variablesRegister[vx] = keyboard->getPressedKey();
+			variablesRegister[vx] = keypad->getPressedKey();
+			keypad->resetKey(variablesRegister[vx]);
 		}
 
 		if (keyPressed) {

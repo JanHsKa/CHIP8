@@ -19,7 +19,7 @@ private:
 	uint8_t delayTimer;
 	uint8_t soundTimer;
 	uint8_t fontSet[80];
-	Keypad* keyboard;
+	Keypad* keypad;
 	bool drawFlag;
 	int programSize;
 

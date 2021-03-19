@@ -35,6 +35,10 @@ void Keypad::changePressedKey(SDL_Event event, int value) {
 	}
 }
 
+void Keypad::resetKey(uint8_t i) {
+	keypad[i] = 0;
+}
+
 bool Keypad::isKeypressed(uint8_t i) {
     return keypad[i];
 }
