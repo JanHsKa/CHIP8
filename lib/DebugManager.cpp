@@ -60,7 +60,7 @@ void DebugManager::loadOpcode() {
     int opcode;
     if (maxDebugLines > DEBUG_LINES) {
         for (int i = 0; i < maxDebugLines - 1; i = i + 2) {
-            programCode.push_back({opcodeToString(cpu->getOpcode(i)), false, i});
+            programCode.push_back({opcodeToString(cpu->getOpcode(i + PROGRAM_START)), false, i});
         }
     } 
     maxDebugLines = programCode.size();
@@ -184,7 +184,7 @@ void DebugManager::jumpToCurrentLine() {
 }
 
 void DebugManager::setCurrentLine() {
-    currentLine = cpu->getProgramCounter() / 2;
+    currentLine = (cpu->getProgramCounter() - PROGRAM_START) / 2;
 }
 
 void DebugManager::printStoppedAtLine() {

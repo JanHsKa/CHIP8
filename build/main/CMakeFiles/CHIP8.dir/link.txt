@@ -1,1 +1,1 @@
-/usr/bin/c++ -g -rdynamic CMakeFiles/CHIP8.dir/main.cpp.o -o CHIP8  -Wl,-rpath,/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/build/lib: ../lib/libsources.so -lSDL2 -lSDL2_image -lSDL2 -lSDL2_ttf -lSDL2 -lSDL2_image -lSDL2_ttf 
+/usr/bin/c++ -g -rdynamic CMakeFiles/CHIP8.dir/main.cpp.o -o CHIP8  -Wl,-rpath,/home/janmalle/Studium/Projektarbeit/Chip8/CHIP8/build/lib: ../lib/libsources.so -L/usr/lib64  -lSDL2 -lSDL2_image -lSDL2 -lSDL2_ttf -lSDL2 -lSDL2_ttf 

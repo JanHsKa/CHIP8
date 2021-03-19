@@ -97,7 +97,8 @@ bool  CPU::load(const char *filePath) {
 }
 
 void CPU::processCommand(){
-	opcode = memory[programCounter] << 8 | memory[programCounter + 1];
+	opcode = getCurrentOpCode();
+	//opcode = memory[programCounter] << 8 | memory[programCounter + 1];
 	decodeOPcode();	
 }
 
@@ -472,13 +473,13 @@ void CPU::copyGraphicBuffer(uint32_t* pixelMap) {
 
 uint16_t CPU::getOpcode(int pc) {
 	if (pc + 1 < programSize) {
-		return memory[pc + PROGRAM_START] << 8 | memory[pc + 1 + PROGRAM_START];
+		return memory[pc] << 8 | memory[pc + 1];
 	}
 	return 0;
 }
 
 uint16_t CPU::getCurrentOpCode() {
-	return getOpcode(programCounter - PROGRAM_START);
+	return getOpcode(programCounter);
 }
 
 
@@ -487,13 +488,13 @@ int CPU::getProgramSize() {
 }
 
 int CPU::getProgramCounter() {
-	return programCounter - PROGRAM_START;
+	return programCounter;
 }
 
 
 void CPU::debugOutput() {
 	cout<< "Current Memory in decimal: " << endl<<endl;
-	cout << "Opcode: "<< hex << opcode << endl <<endl;
+	cout << "Opcode: "<< hex << getCurrentOpCode() << endl <<endl;
 	cout << "Program Counter: " << dec << programCounter << endl <<endl;
 	cout << "Index Register: " << dec << indexRegister << endl <<endl;
 	cout << "Stack Pointer: " << dec << stackPointer << endl <<endl;

@@ -138,7 +138,7 @@
 			},
 			{
 				"backtrace" : 4,
-				"fragment" : "-lSDL2",
+				"fragment" : "-L/usr/lib64  -lSDL2",
 				"role" : "libraries"
 			},
 			{
@@ -159,11 +159,6 @@
 			{
 				"backtrace" : 4,
 				"fragment" : "-lSDL2",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 4,
-				"fragment" : "-lSDL2_image",
 				"role" : "libraries"
 			},
 			{
