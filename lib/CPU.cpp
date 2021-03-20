@@ -344,7 +344,7 @@ void CPU::executeCase8() {
 		break;
 
 	case 0x0004:
-		if ((variablesRegister[x] + variablesRegister[y]) > 0xFF) {
+		if ((int(variablesRegister[x]) + int(variablesRegister[y])) > 0xFF) {
 			variablesRegister[CARRY_FLAG_INDEX] = 1;
 		}
 		else {
@@ -471,8 +471,8 @@ void CPU::copyGraphicBuffer(uint32_t* pixelMap) {
 	}
 }
 
-uint16_t CPU::getOpcode(int pc) {
-	if (pc + 1 < programSize) {
+uint16_t CPU::getOpcode(uint16_t pc) {
+	if (pc + 1 < MEMORYSIZE) {
 		return memory[pc] << 8 | memory[pc + 1];
 	}
 	return 0;

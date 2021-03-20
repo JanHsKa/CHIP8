@@ -39,7 +39,7 @@ public:
 
 	void copyGraphicBuffer(uint32_t*);
 
-	uint16_t getOpcode(int pc); 
+	uint16_t getOpcode(uint16_t pc); 
 	uint16_t getCurrentOpCode();
 	int getProgramCounter();
 	int getProgramSize();

@@ -36,7 +36,6 @@ bool Emulator::loadFile()
 void Emulator::initialize() {
 	checkIfDebug();
 	loadedFile = loadFile();
-
 	if (loadedFile) {
 		gameDisplay->initialize(); 
 		initDebug();
@@ -68,7 +67,6 @@ int Emulator::emulateProgram() {
 
 void Emulator::emulationCycle() {
 	cout << "start programm" <<endl;
-
 	bool stop = false;
 	lastUpdate = SDL_GetTicks(); 
 
@@ -111,7 +109,7 @@ int Emulator::emulateDebug() {
 	cout << "Starting Debug Mode" <<endl;
 	cout << "F6 : Step through program" <<endl;
 	cout << "F7 : Print out current memory" <<endl;
-	cout << "F8 : Run program normal" <<endl;
+	cout << "F8 : Run program normal" <<endl<<endl;
 
 	return 0;
 }
