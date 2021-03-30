@@ -97,7 +97,9 @@ void Emulator::refreshDisplay() {
 
 void Emulator::updateTimer() {
 	if (timeToUpdate()) {
-		cpu->updateTimers();
+		if (cpu->updateTimers()) {
+			//soundController->playSound();
+		}
 	}
 }
 

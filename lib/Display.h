@@ -30,12 +30,10 @@ public:
             SDL_HideWindow(window);
     }
     };
-
     void clearScreen() {
         SDL_RenderClear(renderer);
         SDL_RenderPresent(renderer);
     };
-
     void destroy() {
         SDL_DestroyRenderer(renderer);
 	    SDL_DestroyWindow(window);
